@@ -43,7 +43,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
 </head>
 
 <body>
-    <nav class="top-nav">
+      <nav class="top-nav">
         <div class="top-nav-title">
             <a href="<?= $this->Url->build('/') ?>"><span>Cake</span>PHP</a>
         </div>
@@ -59,13 +59,13 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
-                        <a class="nav-link" href="template/Pages/home.php">Home <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href=<?= $this->Url->build(['controller' => 'employees', 'action' => 'index']); ?>>Home <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Employees</a>
+                        <a class="nav-link" href=<?= $this->Url->build(['controller' => 'employees', 'action' => 'index']); ?>>Employees</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" href=<?= $this->Url->build(['controller' => 'departments', 'action' => 'index']); ?> id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Departments
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -85,8 +85,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
                 </form>
             </div>
         </div>
-    </nav>
-
+    </nav> 
     <main class="main">
         <div class="container">
             <?= $this->Flash->render() ?>

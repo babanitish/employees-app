@@ -1,7 +1,9 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller;
+
 
 /**
  * Employees Controller
@@ -33,7 +35,7 @@ class EmployeesController extends AppController
     public function view($id = null)
     {
         $employee = $this->Employees->get($id, [
-            'contain' => [],
+            'contain' => ['Salaries'],
         ]);
 
         $this->set(compact('employee'));

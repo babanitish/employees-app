@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Employee $employee
@@ -17,6 +18,13 @@
     <div class="column-responsive column-80">
         <div class="employees view content">
             <h3><?= h($employee->emp_no) ?></h3>
+            <div><?= __('Salaire actuel') ?> : <?= $this->Number->format($employee->actualSalary->salary, [
+                                                    'locale' => 'fr_BE',
+                                                    'after' => ' €',
+                                                    'places' => 2,
+                                                ]) ?>
+
+            </div>
             <table>
                 <tr>
                     <th><?= __('First Name') ?></th>
@@ -41,6 +49,15 @@
                 <tr>
                     <th><?= __('Hire Date') ?></th>
                     <td><?= h($employee->hire_date) ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('Salaries') ?></th>
+                    <td>
+
+
+
+
+                    </td>
                 </tr>
             </table>
         </div>
