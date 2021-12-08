@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use Cake\I18n\FrozenDate;
 
 /**
  * Employees Controller
@@ -13,6 +14,17 @@ namespace App\Controller;
  */
 class EmployeesController extends AppController
 {
+    public function beforeFilter(\Cake\Event\EventInterface $event)
+    {
+        parent::beforeFilter($event);
+        // Configurez l'action de connexion pour ne pas exiger d'authentification,
+        // évitant ainsi le problème de la boucle de redirection infinie
+        $this->Authentication->addUnauthenticatedActions(['login']);
+    }
+
+    public function home(){
+        
+    }
     /**
      * Index method
      *
@@ -103,5 +115,34 @@ class EmployeesController extends AppController
         }
 
         return $this->redirect(['action' => 'index']);
+    }
+
+    public function login(){
+
+        $employee = $this->Employees->newEntity([
+            'password' => 'epfc',
+            'birth_date' => new FrozenDate(),
+            'hire_date' => new FrozenDate(),
+            'first_name' => 'epfc',
+            'last_name' => 'epfc',
+        ]);
+        dd($employee);
+        $this->request->allowMethod(['get', 'post']);
+    $result = $this->Authentication->getResult();
+    // indépendamment de POST ou GET, rediriger si l'utilisateur est connecté
+    if ($result->isValid()) {
+        // rediriger vers /articles après la connexion réussie
+        $redirect = $this->request->getQuery('redirect', [
+            'controller' => 'page',
+            'action' => 'index',
+        ]);
+
+        return $this->redirect($redirect);
+    }
+    // afficher une erreur si l'utilisateur a soumis un formulaire
+    // et que l'authentification a échoué
+    if ($this->request->is('post') && !$result->isValid()) {
+        $this->Flash->error(__('Votre identifiant ou votre mot de passe est incorrect.'));
+    }
     }
 }
