@@ -117,16 +117,9 @@ class EmployeesController extends AppController
         return $this->redirect(['action' => 'index']);
     }
 
-    public function login(){
+  public function login(){
 
-        $employee = $this->Employees->newEntity([
-            'password' => 'epfc',
-            'birth_date' => new FrozenDate(),
-            'hire_date' => new FrozenDate(),
-            'first_name' => 'epfc',
-            'last_name' => 'epfc',
-        ]);
-        dd($employee);
+        
         $this->request->allowMethod(['get', 'post']);
     $result = $this->Authentication->getResult();
     // indépendamment de POST ou GET, rediriger si l'utilisateur est connecté
@@ -134,7 +127,7 @@ class EmployeesController extends AppController
         // rediriger vers /articles après la connexion réussie
         $redirect = $this->request->getQuery('redirect', [
             'controller' => 'page',
-            'action' => 'index',
+            'action' => 'home',
         ]);
 
         return $this->redirect($redirect);
@@ -145,4 +138,13 @@ class EmployeesController extends AppController
         $this->Flash->error(__('Votre identifiant ou votre mot de passe est incorrect.'));
     }
     }
+    public function logout()
+{
+    $result = $this->Authentication->getResult();
+    // regardless of POST or GET, redirect if user is logged in
+    if ($result->isValid()) {
+        $this->Authentication->logout();
+        return $this->redirect(['controller' => 'Employees', 'action' => 'login']);
+    }
+}
 }

@@ -58,6 +58,11 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
   aria-describedby="search-addon" />
   <button type="button" class="btn btn-outline-primary">search</button>
 </div>
+<?php if($user) : ?>
+<?= $this->Html->link(__('Logout'), ['controller' => 'Employees','action' => 'logout'], ['class' => 'button float-right']) ?>
+<?php else : ?>
+<?= $this->Html->link(__('Login'), ['controller' => 'Employees','action' => 'login'], ['class' => 'button float-right']) ?>
+<?php endif ; ?>
     </nav>
 
 

@@ -50,5 +50,9 @@ class AppController extends Controller
          * see https://book.cakephp.org/4/en/controllers/components/form-protection.html
          */
         //$this->loadComponent('FormProtection');
+
+// récuperation du user connecté
+        $user = $this->Authentication->getIdentity();
+        $this->set(compact('user'));
     }
 }
