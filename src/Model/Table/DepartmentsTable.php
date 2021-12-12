@@ -40,6 +40,9 @@ class DepartmentsTable extends Table
         $this->setTable('departments');
         $this->setDisplayField('dept_no');
         $this->setPrimaryKey('dept_no');
+
+
+        
     }
 
     /**

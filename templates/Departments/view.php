@@ -18,6 +18,13 @@
         <div class="departments view content">
             <h3><?= h($department->dept_no) ?></h3>
             <table>
+            <tr>
+                    <td><?= $this->Html->image(h($department->picture), [
+                                    "alt" => "manager picture",
+                                    "width"=>100,
+                                    "class"=>"card-img-top"
+                            ]);?>
+                    </td>
                 <tr>
                     <th><?= __('Dept No') ?></th>
                     <td><?= h($department->dept_no) ?></td>

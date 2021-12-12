@@ -35,7 +35,6 @@ class DepartmentsController extends AppController
         $department = $this->Departments->get($id, [
             'contain' => [],
         ]);
-
         $this->set(compact('department'));
     }
 

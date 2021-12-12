@@ -77,7 +77,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
 
         <div class="row">
             <div class="col-4">
-                <h3 style="color: #fff;" class="bg-info text-capitalize p-1">Recent Post</h3>
+                <h3 style="color: #fff;" class="bg-info text-capitalize p-1">Communiqués de presse</h3>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item"><a href="#">Cras justo odio</a></li>
                     <li class="list-group-item"><a href="#">Dapibus ac facilisis in</a></li>
@@ -124,7 +124,9 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     </div>
 
     <footer class="bg-dark mt-3 text-light p-4 text-center">
-        Aboubacar Toure copyright 2021-2022
+        Aboubacar Toure copyright 2021-2022   <?= $imgQrCode ?>
+        
+        
     </footer>
 
 </body>
