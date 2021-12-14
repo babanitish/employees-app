@@ -384,3 +384,9 @@
         </div>
       </div>
     </section>
+    
+    <footer class="bg-dark mt-3 text-light p-4 text-center">
+        Aboubacar Toure copyright 2021-2022   <?= $imgQrCode ?>
+        
+        
+    </footer>
