@@ -6,14 +6,15 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * Department Entity
+ * DeptEmp Entity
  *
+ * @property int $emp_no
  * @property string $dept_no
- * @property string $dept_name
+ * @property \Cake\I18n\FrozenDate $from_date
+ * @property \Cake\I18n\FrozenDate $to_date
  */
-class Department extends Entity
+class DeptEmp extends Entity
 {
-    use \Cake\ORM\Locator\LocatorAwareTrait;
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
      *
@@ -24,19 +25,7 @@ class Department extends Entity
      * @var array
      */
     protected $_accessible = [
-        'dept_name' => true,
-        'description'=>true,
-        'picture'=>true,
-        'address'=>true
+        'from_date' => true,
+        'to_date' => true,
     ];
-    
-    
-    
-    protected function _getNbEmployees(){
-        $query = $this->getTableLocator()->get('DeptEmp')->find()
-                ->where(['dept_no'=>$this->dept_no, 'to_date'=>'9999-01-01']);
-        
-        return $query->count();
-    }
-    
 }

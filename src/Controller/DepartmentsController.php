@@ -33,7 +33,7 @@ class DepartmentsController extends AppController
     public function view($id = null)
     {
         $department = $this->Departments->get($id, [
-            'contain' => [],
+            'contain' => ['Managers'],
         ]);
         $this->set(compact('department'));
     }

@@ -23,6 +23,9 @@
                 <legend><?= __('Edit Department') ?></legend>
                 <?php
                     echo $this->Form->control('dept_name');
+                    echo '<label for="description">Description</label>';
+                    echo $this->Form->textarea('description', ['type'=>'text', 'rows'=>'6']);
+                    echo $this->Form->control('address');
                 ?>
             </fieldset>
             <?= $this->Form->button(__('Submit')) ?>
