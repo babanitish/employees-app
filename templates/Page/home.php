@@ -129,7 +129,7 @@
                         <svg class="u-svg-content" viewBox="0 0 409.6 409.6" x="0px" y="0px" id="svg-c574"><g><g><path d="M392.533,187.733H17.067C7.641,187.733,0,195.374,0,204.8s7.641,17.067,17.067,17.067h375.467    c9.426,0,17.067-7.641,17.067-17.067S401.959,187.733,392.533,187.733z"></path>
 </g>
 </g></svg>
-                      </div>  <?= $this->Html->link('Rapport annuel 2019', 'https://www.orphoz.com/uploads/media/pdf-exemple.pdf', ['class' => 'u-active-palette-2-base u-btn u-btn-round u-button-style u-hover-palette-2-base u-palette-3-base u-radius-50 u-text-active-palette-3-base u-text-hover-palette-3-base u-text-palette-2-base u-btn-1', 'target' => '_blank']); ?>
+                      </div>  <?= $this->Html->link('Rapport  2019', 'https://www.orphoz.com/uploads/media/pdf-exemple.pdf', ['class' => 'u-active-palette-2-base u-btn u-btn-round u-button-style u-hover-palette-2-base u-palette-3-base u-radius-50 u-text-active-palette-3-base u-text-hover-palette-3-base u-text-palette-2-base u-btn-1', 'target' => '_blank']); ?>
 
                     </li>
                     <li>
