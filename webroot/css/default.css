@@ -1,0 +1,15 @@
+.partners{
+	margin-top:50px;
+	display:flex;
+	justify-content:space-between;
+	align-items:space-between;
+}
+.partners span a{
+	display:flex;
+	flex-direction:column;
+	text-align:center;
+}
+
+.container{
+	padding-bottom:60px;
+}

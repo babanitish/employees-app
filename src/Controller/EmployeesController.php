@@ -32,6 +32,7 @@ class EmployeesController extends AppController
      */
     public function index()
     {
+        //ajout de commentaire
         $employees = $this->paginate($this->Employees);
         $total = $this->Employees->find()->count();
 

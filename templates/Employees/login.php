@@ -2,6 +2,7 @@
     <?= $this->Flash->render() ?>
     <h3>Connexion</h3>
     <?= $this->Form->create() ?>
+    
     <fieldset>
         <legend><?= __("Veuillez s'il vous plaît entrer votre nom d'utilisateur et votre mot de passe") ?></legend>
         <?= $this->Form->control('email', ['required' => true]) ?>
