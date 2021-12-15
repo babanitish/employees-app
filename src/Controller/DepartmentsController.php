@@ -99,6 +99,6 @@ class DepartmentsController extends AppController
             $this->Flash->error(__('The department could not be deleted. Please, try again.'));
         }
 
-        return $this->redirect(['action' => 'index']);
+        return $this->redirect(['action' => 'index']);//asdasd
     }
 }
