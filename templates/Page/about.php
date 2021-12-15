@@ -68,7 +68,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     
     <div class="container">
         <div class="jumbotron jumbotron-fluid">
-            <h1 class="display-4" style = "textAligne:center">Photo</h1>
+            <h1 class="display-4">Photo</h1>
         </div>
 
         <h2>Qui sommes nous </h2>
