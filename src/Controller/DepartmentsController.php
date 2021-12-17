@@ -72,6 +72,39 @@ class DepartmentsController extends AppController
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $department = $this->Departments->patchEntity($department, $this->request->getData());
+            
+            //get uploaded picture and roi pdf
+            if (!empty($this->request->getData('uploadedPic'))){
+                $fileobject = $this->request->getData('uploadedPic');
+                $fileName = $fileobject->getClientFilename();
+                dd($fileobject);
+                if (!empty($filename)){
+                    //TODO check size and file type
+                    
+                    //save img
+                    $destination = 'img/departments/' .$fileName ;
+                    $fileobject->moveTo($destination);
+                    $department->picture = $fileName;
+                }
+                
+                
+            }
+            if (!empty($this->request->getData('uploadedROI'))){
+                $fileobject = $this->request->getData('uploadedROI');
+                $fileName = $fileobject->getClientFilename();
+                if (!empty($filename)){
+                    //TODO check size and file type
+                    
+                    //save pdf
+                    $destination = 'docs/ROI/' .$fileName ;
+                    $fileobject->moveTo($destination);
+                    $department->roi = $fileName;
+                }
+                
+                
+            }
+            
+            
             if ($this->Departments->save($department)) {
                 $this->Flash->success(__('The department has been saved.'));
 

@@ -38,9 +38,21 @@
                     <th><?= __('Description') ?></th>
                     <td><?= h($department->description) ?></td>
                 </tr>
+                
+                <tr>
+                    <th><?= __('Current Manager') ?></th>
+                    <td>
+                    	<?= $this->Html->image('employees/'.$department->manager->picture)?>
+                    	<?= '<br>'.$department->manager->first_name.' '.$department->manager->last_name ?>
+                    </td>
+                </tr>
                 <tr>
                     <th><?= __('Adresse') ?></th>
                     <td><?= h($department->address) ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('ROI') ?></th>
+                    <td><?= $this->Html->link(__('Telecharger le ROI'), '/docs/ROI/'.$department->roi, ['download'=>$department->roi]) ?></td>
                 </tr>
                 
             </table>

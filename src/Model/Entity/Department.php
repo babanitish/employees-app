@@ -27,7 +27,8 @@ class Department extends Entity
         'dept_name' => true,
         'description'=>true,
         'picture'=>true,
-        'address'=>true
+        'address'=>true,
+        'roi'=>true
     ];
     
     
@@ -37,6 +38,13 @@ class Department extends Entity
                 ->where(['dept_no'=>$this->dept_no, 'to_date'=>'9999-01-01']);
         
         return $query->count();
+    }
+    
+    protected function _getManager(){
+        $query = $this->getTableLocator()->get('DeptManager')->find('all', ['contain' => ['Employees']])->innerJoinWith('Employees')
+        ->where(['dept_no'=>$this->dept_no, 'to_date'=>'9999-01-01']);
+        
+        return $query->first()->employee;
     }
     
 }

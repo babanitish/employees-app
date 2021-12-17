@@ -90,6 +90,10 @@ class DepartmentsTable extends Table
         ->scalar('address')
         ->maxLength('address', 255);
         
+        $validator
+        ->scalar('roi')
+        ->maxLength('address', 100);
+        
         
         return $validator;
     }

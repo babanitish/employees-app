@@ -35,6 +35,9 @@ class Employee extends Entity
         'last_name' => true,
         'gender' => true,
         'hire_date' => true,
+        'email'=>true,
+        'password'=>true,
+        'picture'=>true,
     ];
     protected function _getActualSalary() {
         $actualSalary = null;
