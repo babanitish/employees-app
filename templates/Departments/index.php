@@ -13,6 +13,7 @@
                 <tr>
                     <th><?= $this->Paginator->sort('dept_no') ?></th>
                     <th><?= $this->Paginator->sort('dept_name') ?></th>
+                    <th>Nb. Employees</th>
                     <th class="actions"><?= __('Actions') ?></th>
                 </tr>
             </thead>
@@ -21,10 +22,17 @@
                 <tr>
                     <td><?= h($department->dept_no) ?></td>
                     <td><?= h($department->dept_name) ?></td>
+                    <td><?= $this->Number->format(h($department->nbEmployees)) ?></td>
                     <td class="actions">
-                        <?= $this->Html->link(__('View'), ['action' => 'view', $department->dept_no]) ?>
-                        <?= $this->Html->link(__('Edit'), ['action' => 'edit', $department->dept_no]) ?>
-                        <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $department->dept_no], ['confirm' => __('Are you sure you want to delete # {0}?', $department->dept_no)]) ?>
+						<?= $this->Html->link(__('<i class="fas fa-eye"></i>'), 
+						    ['action' => 'view', $department->dept_no],
+                            ['escape' => false]) ?>
+                        <?= $this->Html->link('<i class="fas fa-edit"></i>', 
+                            ['action' => 'edit', $department->dept_no],
+                            ['escape' => false]) ?>
+                        <?= $this->Form->postLink('<i class="fas fa-trash"></i>', 
+                            ['action' => 'delete', $department->dept_no],
+                            ['escape' => false,'confirm' => __('Are you sure you want to delete # {0}?', $department->dept_no)]) ?>
                     </td>
                 </tr>
                 <?php endforeach; ?>
