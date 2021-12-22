@@ -17,14 +17,12 @@
     <div class="column-responsive column-80">
         <div class="departments view content">
             <h3><?= h($department->dept_no) ?></h3>
-            <table>
-            <tr>
-                    <td><?= $this->Html->image(h('departments/'.$department->picture), [
+            <?= $this->Html->image(h('departments/'.$department->picture), [
                                     "alt" => "manager picture",
                                     "width"=>100,
                                     "class"=>"card-img-top"
                             ]);?>
-                    </td>
+            <table>
                 <tr>
                     <th><?= __('Dept No') ?></th>
                     <td><?= h($department->dept_no) ?></td>
@@ -62,9 +60,9 @@
             <table>
             	<thead>
                 	<tr>
+                		<th>Manager</th>
                 		<th>From</th>
                 		<th>To</th>
-                		<th>Salary</th>
                 	</tr>
                 </thead>
                 <?php foreach($department->managers as $manager) {?>
