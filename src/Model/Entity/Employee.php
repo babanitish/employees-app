@@ -8,6 +8,7 @@ use Cake\I18n\FrozenDate;
 
 
 
+
 /**
  * Employee Entity
  *
@@ -54,6 +55,18 @@ class Employee extends Entity
         }
         
         return $actualSalary;
+    }
+    
+    protected function _getCurrentDepartment() {
+        $currentDept = null;
+        
+        $dateInfinie = new FrozenDate('9999-01-01');
+        foreach($this->departments as $department){    
+            if ($department->_joinData->to_date->equals($dateInfinie)){
+                $this->currentDepartment = $department;
+                break;
+            }
+        }
     }
 
     protected function _setPassword($value)
