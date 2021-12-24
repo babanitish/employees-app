@@ -39,6 +39,8 @@ use Psr\Http\Message\ServerRequestInterface;
 use Authorization\AuthorizationService;
 use Authorization\AuthorizationServiceInterface;
 use Authorization\AuthorizationServiceProviderInterface;
+use Authorization\Exception\ForbiddenException;
+use Authorization\Exception\MissingIdentityException;
 use Authorization\Middleware\AuthorizationMiddleware;
 use Authorization\Policy\OrmResolver;
 
@@ -128,8 +130,19 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
                 'httponly' => true,
             ]))
             ->add(new AuthenticationMiddleware($this))
-            ->add(new AuthorizationMiddleware($this));
-
+            ->add(new AuthorizationMiddleware($this, [
+                'unauthorizedHandler' => [
+                    'className' => 'CustomRedirect', // <--- see here
+                    'url' => '/employees/login',
+                    'queryParam' => 'redirectUrl',
+                    'exceptions' => [
+                        MissingIdentityException::class,
+                        ForbiddenException::class
+                    ],
+                    'custom_param' => true,
+                ],
+            ]));
+        
         return $middlewareQueue;
     }
 

@@ -3,13 +3,13 @@ declare(strict_types=1);
 
 namespace App\Policy;
 
-use App\Model\Entity\Employee;
+use App\Model\Entity\Department;
 use Authorization\IdentityInterface;
 
 /**
  * Employee policy
  */
-class EmployeePolicy
+class DepartmentPolicy
 {
     /**
      * Check if $user can add Employee
@@ -18,7 +18,7 @@ class EmployeePolicy
      * @param \App\Model\Entity\Employee $employee
      * @return bool
      */
-    public function canAdd(IdentityInterface $user, Employee $employee)
+    public function canAdd(IdentityInterface $user, Department $department)
     {
     }
 
@@ -29,13 +29,13 @@ class EmployeePolicy
      * @param \App\Model\Entity\Employee $employee
      * @return bool
      */
-    public function canEdit(IdentityInterface $user, Employee $employee)
+    public function canEdit(IdentityInterface $user, Department $department)
     {
         //déterminer si user est manager
         
         //si oui vérifier qu'il est du même départment
-        return $user->getOriginalData()->isManager && ($employee->currentDepartment == $user->getOriginalData()->currentDepartment);
-
+        //return $user->getOriginalData()->isManager && ($department->dept_no == $user->getOriginalData()->currentDepartment);
+        return false;
     }
 
     /**
@@ -45,7 +45,7 @@ class EmployeePolicy
      * @param \App\Model\Entity\Employee $employee
      * @return bool
      */
-    public function canDelete(IdentityInterface $user, Employee $employee)
+    public function canDelete(IdentityInterface $user, Department $department)
     {
     }
 
@@ -56,7 +56,7 @@ class EmployeePolicy
      * @param \App\Model\Entity\Employee $employee
      * @return bool
      */
-    public function canView(IdentityInterface $user, Employee $employee)
+    public function canView(IdentityInterface $user, Department $department)
     {
     }
     

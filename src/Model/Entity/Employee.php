@@ -21,6 +21,7 @@ use Cake\I18n\FrozenDate;
  */
 class Employee extends Entity
 {
+    use \Cake\ORM\Locator\LocatorAwareTrait;
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
      *
@@ -63,10 +64,26 @@ class Employee extends Entity
         $dateInfinie = new FrozenDate('9999-01-01');
         foreach($this->departments as $department){    
             if ($department->_joinData->to_date->equals($dateInfinie)){
-                $this->currentDepartment = $department;
+                $currentDept = $department;
                 break;
             }
         }
+        
+        return $currentDept;
+    }
+    
+    protected function _getIsManager(){
+        $dateInfinie = new FrozenDate('9999-01-01');
+        $isManager = $this->getTableLocator()->get('DeptManager')
+            ->find()
+            ->where([
+                'emp_no' => $this->emp_no,
+                'to_date' => '9999-01-01',
+            ])
+            ->count();
+        
+        return $isManager;
+        
     }
 
     protected function _setPassword($value)

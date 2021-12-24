@@ -18,6 +18,7 @@ class DepartmentsController extends AppController
      */
     public function index()
     {
+        $this->Authorization->skipAuthorization();
         $departments = $this->paginate($this->Departments);
 
         $this->set(compact('departments'));
@@ -32,6 +33,7 @@ class DepartmentsController extends AppController
      */
     public function view($id = null)
     {
+        $this->Authorization->skipAuthorization();
         $department = $this->Departments->get($id, [
             'contain' => ['Managers'],
         ]);
@@ -70,6 +72,11 @@ class DepartmentsController extends AppController
         $department = $this->Departments->get($id, [
             'contain' => [],
         ]);
+        
+        $this->Authorization->authorize($department, 'edit');
+        
+        
+        
         if ($this->request->is(['patch', 'post', 'put'])) {
             $department = $this->Departments->patchEntity($department, $this->request->getData());
             
