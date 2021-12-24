@@ -77,6 +77,31 @@
                 <?php } ?>
                 </tbody>
             </table>
+            
+            <h3><?= __('Postes vacants') ?></h3>
+            
+            <?php if (!empty($department->offers)) { ?>
+            <table>
+            	<thead>
+                	<tr>
+                		<th>Title</th>
+                		<th colspan="2">Description</th>
+                	</tr>
+                </thead>
+                <?php foreach($department->offers as $offer) {?>
+                
+                <tbody>
+                <tr>
+                	<td><?= __($offer->titleName) ?></td>
+                	<td><?= __($offer->description) ?></td>
+                    <td><?= __('Postuler') ?></td>
+                </tr>
+                <?php } ?>
+                </tbody>
+            </table>
+            <?php } else {  ?>
+            	<p><?= __('Aucun poste vacant') ?></p>
+            <?php } ?>
         </div>
     </div>
 </div>
