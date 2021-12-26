@@ -34,8 +34,8 @@ class EmployeePolicy
         //déterminer si user est manager
         
         //si oui vérifier qu'il est du même départment
-        return $user->getOriginalData()->isManager && ($employee->currentDepartment == $user->getOriginalData()->currentDepartment);
-
+        //return $user->getOriginalData()->isManager && ($employee->currentDepartment == $user->getOriginalData()->currentDepartment);
+        return $user->getOriginalData()->emp_no == $employee->emp_no;
     }
 
     /**

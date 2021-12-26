@@ -132,7 +132,7 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
             ->add(new AuthenticationMiddleware($this))
             ->add(new AuthorizationMiddleware($this, [
                 'unauthorizedHandler' => [
-                    'className' => 'CustomRedirect', // <--- see here
+                    'className' => 'CustomRedirect',
                     'url' => '/employees/login',
                     'queryParam' => 'redirectUrl',
                     'exceptions' => [
@@ -142,6 +142,7 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
                     'custom_param' => true,
                 ],
             ]));
+            
         
         return $middlewareQueue;
     }
