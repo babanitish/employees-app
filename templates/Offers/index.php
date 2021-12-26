@@ -5,7 +5,6 @@
  */
 ?>
 <div class="offers index content">
-    <?= $this->Html->link(__('New Offer'), ['action' => 'add'], ['class' => 'button float-right']) ?>
     <h3><?= __('Offers') ?></h3>
     <div class="table-responsive">
     

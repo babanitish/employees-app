@@ -3,6 +3,9 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use Cake\I18n\FrozenDate;
+use Cake\Mailer\Mailer;
+
 /**
  * Offers Controller
  *
@@ -36,6 +39,63 @@ class OffersController extends AppController
             'contain' => [],
         ]);
 
+        $this->set(compact('offer'));
+    }
+    
+    /**
+     * Apply method
+     *
+     * @param string|null $id Offer id.
+     * @return \Cake\Http\Response|null|void Renders view
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function apply($id = null)
+    {
+        $offer = $this->Offers->get($id, [
+            'contain' => ['titles', 'departments'],
+        ]);
+        
+        
+        if ($this->request->is([ 'post'])) {
+            //retrieve info from connected user
+            $user = $this->Authentication->getIdentity()->getOriginalData();
+            $firstname = $user->first_name;
+            $lastname = $user->last_name;
+            $email = $user->email;
+            $birthdate = new FrozenDate($user->birth_date);
+            
+            /*
+            $managerEmail = 'lauren.swart@gmail.com';
+            //todo cv
+            
+            //create email
+            $mailer = new Mailer('default');
+            $mailer->setFrom([$email => "$firstname $lastname"])
+            ->setTo($managerEmail)
+            ->setSubject('Job application')
+            ->deliver("$firstname $lastname, born on $birthdate, is applying for ".$offer->title->name.".");
+            /*
+            $mailer->setAttachments([
+                'photo.png' => [
+                    'file' => '/full/some_hash.png',
+                    'mimetype' => 'image/png',
+                    'contentId' => 'my-unique-id'
+                ]
+            ]);
+            */
+            
+            //send
+            //display message success or failure
+            $sentEmail = true;
+            if ($sentEmail) {
+                $this->Flash->success(__('Your application has been sent'));
+                
+                return $this->redirect(['action' => 'index']);
+            }
+            $this->Flash->error(__('Your application could not be sent. Please, try again.'));
+        }
+        
+        
         $this->set(compact('offer'));
     }
 
