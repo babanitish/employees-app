@@ -18,7 +18,7 @@
         <div class="departments view content">
             <h3><?= h($department->dept_no) ?></h3>
             <?= $this->Html->image(h('departments/'.$department->picture), [
-                                    "alt" => "manager picture",
+                                    "alt" => "department picture",
                                     "width"=>100,
                                     "class"=>"card-img-top"
                             ]);?>
