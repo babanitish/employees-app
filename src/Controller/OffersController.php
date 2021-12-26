@@ -5,6 +5,7 @@ namespace App\Controller;
 
 use Cake\I18n\FrozenDate;
 use Cake\Mailer\Mailer;
+use Exception;
 
 /**
  * Offers Controller
@@ -64,35 +65,52 @@ class OffersController extends AppController
             $email = $user->email;
             $birthdate = new FrozenDate($user->birth_date);
             
-            /*
+            
             $managerEmail = 'lauren.swart@gmail.com';
-            //todo cv
             
-            //create email
-            $mailer = new Mailer('default');
-            $mailer->setFrom([$email => "$firstname $lastname"])
-            ->setTo($managerEmail)
-            ->setSubject('Job application')
-            ->deliver("$firstname $lastname, born on $birthdate, is applying for ".$offer->title->name.".");
-            /*
-            $mailer->setAttachments([
-                'photo.png' => [
-                    'file' => '/full/some_hash.png',
-                    'mimetype' => 'image/png',
-                    'contentId' => 'my-unique-id'
-                ]
-            ]);
-            */
+            $fileobject = $this->request->getData('uploadedCV');
+            $destination = 'docs/applications/'.$offer->offer_no.'-'.$user->emp_no.'.pdf';
             
-            //send
-            //display message success or failure
-            $sentEmail = true;
-            if ($sentEmail) {
-                $this->Flash->success(__('Your application has been sent'));
+            // Existing files with the same name will be replaced.
+            $fileobject->moveTo($destination);
+
+            
+            try {
+                //create email
+                $mailer = new Mailer('default');
+                $mailer->setFrom([$email => "$firstname $lastname"])
+                ->setTo($managerEmail)
+                ->setSubject('Job application')
+                ->deliver("$firstname $lastname, born on $birthdate, is applying for ".$offer->title->name.".");
+                //attach cv
+                /*
+                $mailer->setAttachments([
+                    'cv' => [
+                        'file' => $destination,
+                        'mimetype' => 'application/pdf'
+                    ]
+                ]);
+                */
+                //send email
+                $mailer->deliver();
+                //display message success or failure
+                $sentEmail = false;
                 
-                return $this->redirect(['action' => 'index']);
+                if ($sentEmail) {
+                    $this->Flash->success(__('Your application has been sent'));
+                    
+                    return $this->redirect(['action' => 'index']);
+                } else {
+                    $this->Flash->error(__('Your application could not be sent. Please, try again.'));
+                }
+                
+            } catch (Exception $e) {
+                $this->Flash->error(__('Exception : Your application could not be sent. Please, try again.'));
+                $this->set(compact('offer'));
+                return;
             }
-            $this->Flash->error(__('Your application could not be sent. Please, try again.'));
+            
+            
         }
         
         

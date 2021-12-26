@@ -12,8 +12,8 @@
 </div>
 <div class="offers form content">
 <?= $this->Form->create(null, ['type'=>'post', 'enctype'=>'multipart/form-data'])?>
-    
-    <?php //TODO join cv ?>
+    <label><?= __('Upload your CV')?></label>
+    <?= $this->Form->file('uploadedCV'); ?>
     <?= $this->Form->submit(__('Send application')); ?>
 <?= $this->Form->end()?>
 </div>
