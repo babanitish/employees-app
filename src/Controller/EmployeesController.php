@@ -22,8 +22,8 @@ class EmployeesController extends AppController
         $this->Authentication->addUnauthenticatedActions(['login']);
     }
 
-    public function home(){
-        
+    public function home()
+    {
     }
     /**
      * Index method
@@ -36,7 +36,8 @@ class EmployeesController extends AppController
         $employees = $this->paginate($this->Employees);
         $total = $this->Employees->find()->count();
 
-        $this->set(compact('employees','total'));
+
+        $this->set(compact('employees', 'total'));
     }
 
     /**
@@ -119,34 +120,36 @@ class EmployeesController extends AppController
         return $this->redirect(['action' => 'index']);
     }
 
-  public function login(){
+    public function login()
+    {
 
-        
+
         $this->request->allowMethod(['get', 'post']);
-    $result = $this->Authentication->getResult();
-    // indépendamment de POST ou GET, rediriger si l'utilisateur est connecté
-    if ($result->isValid()) {
-        // rediriger vers /articles après la connexion réussie
-        $redirect = $this->request->getQuery('redirect', [
-            'controller' => 'page',
-            'action' => 'home',
-        ]);
+        $result = $this->Authentication->getResult();
+        // indépendamment de POST ou GET, rediriger si l'utilisateur est connecté
+        if ($result->isValid()) {
+            // rediriger vers /articles après la connexion réussie
+            $redirect = $this->request->getQuery('redirect', [
+                'controller' => 'page',
+                'action' => 'home',
+            ]);
 
-        return $this->redirect($redirect);
-    }
-    // afficher une erreur si l'utilisateur a soumis un formulaire
-    // et que l'authentification a échoué
-    if ($this->request->is('post') && !$result->isValid()) {
-        $this->Flash->error(__('Votre identifiant ou votre mot de passe est incorrect.'));
-    }
+            return $this->redirect($redirect);
+        }
+        // afficher une erreur si l'utilisateur a soumis un formulaire
+        // et que l'authentification a échoué
+        if ($this->request->is('post') && !$result->isValid()) {
+            $this->Flash->error(__('Votre identifiant ou votre mot de passe est incorrect.'));
+        }
     }
     public function logout()
-{
-    $result = $this->Authentication->getResult();
-    // regardless of POST or GET, redirect if user is logged in
-    if ($result->isValid()) {
-        $this->Authentication->logout();
-        return $this->redirect(['controller' => 'Employees', 'action' => 'login']);
+    {
+        $result = $this->Authentication->getResult();
+        // regardless of POST or GET, redirect if user is logged in
+        if ($result->isValid()) {
+            $this->Authentication->logout();
+            return $this->redirect(['controller' => 'Employees', 'action' => 'login']);
+        }
     }
-}
+  
 }
