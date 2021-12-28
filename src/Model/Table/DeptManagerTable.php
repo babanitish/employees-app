@@ -40,6 +40,12 @@ class DeptManagerTable extends Table
         $this->setTable('dept_manager');
         $this->setDisplayField(['emp_no', 'dept_no']);
         $this->setPrimaryKey(['emp_no', 'dept_no']);
+
+
+      
+        $this->belongsTo('Employees')
+        ->setForeignKey('emp_no');
+    
     }
 
     /**

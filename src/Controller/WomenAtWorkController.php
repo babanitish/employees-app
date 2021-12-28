@@ -25,9 +25,11 @@ class WomenAtWorkController extends AppController
            $inboxCell = $this->cell('inbox');
            $womenYear = $this->cell('womenYear');
            $womenDept = $this->cell('womenDept');
+           $womenManager = $this->cell('womenManager');
 
 
-       $this->set(compact('inboxCell','womenYear','womenDept'));
+
+       $this->set(compact('inboxCell','womenYear','womenDept','womenManager'));
 
     }
 

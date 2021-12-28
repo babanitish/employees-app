@@ -10,3 +10,5 @@ use App\View\Cell\InboxCell;
 <?= $womenDept ?>
 
 <p>Le nombre de femmes manager</p>
+
+<?= $womenManager ?>

@@ -52,7 +52,12 @@ class EmployeesTable extends Table
             'bindingKey' => 'emp_no',
             'conditions' => ['DeptEmp.to_date' => '9999-01-01']
         ]);
-
+        $this->belongsTo('Dept_manager',[
+            'joinTable' => 'dept_manager',
+            'foreignKey' => 'emp_no',
+            'bindingKey' => 'emp_no',
+            
+        ]);
     }
 
     /**
