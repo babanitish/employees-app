@@ -1,5 +1,5 @@
 <p>
-<?php foreach($womenPerYear as $year => $nbwomen):?>
-    <?= "$year :  $nbwomen<br/>"?>
+<?php foreach($womenPerYear as $row):?>
+    <?= "$row->year :  $row->nbWomen<br/>"?>
 <?php endforeach; ?>
 </p>

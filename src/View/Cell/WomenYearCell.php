@@ -40,16 +40,18 @@ class WomenYearCell extends Cell
         $query = $this->getTableLocator()->get('employees')->find();
 
         $query->select([
-            'nbWomen' => $query->func()->count('employees.emp_no'), 'hire_date'
+            'nbWomen' => $query->func()->count('employees.emp_no'), 
+            'year' => $query->func()->year(['hire_date'=>'identifier'])
         ])
             ->where([
                 'gender' => 'F',
             ])
             ->group([
-                'hire_date'
+                'YEAR(hire_date)'
             ]);
-        $result = $query->all();
-
+        $womenPerYear = $query->all();
+        
+        /*
         foreach ($result as $date) {
             if (!array_key_exists($date->hire_date->format('Y'), $womenPerYear)) {
                 $womenPerYear[$date->hire_date->format('Y')] = $date->nbWomen;
@@ -57,6 +59,7 @@ class WomenYearCell extends Cell
                 $womenPerYear[$date->hire_date->format('Y')] += $date->nbWomen;
             }
         }
+        */
         $this->set(compact('womenPerYear'));
     }
 }
