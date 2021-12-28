@@ -35,18 +35,18 @@ class InboxCell extends Cell
     public function display()
     {
         $women = $this->fetchTable('Employees')->find()
-        ->where(['gender'=>'F']);
-    $totalWomen = $women->count();
-
-    $men = $this->fetchTable('Employees')->find()
-        ->where(['gender'=>'M']);
-    $totalMen = $men->count();
+            ->where(['gender'=>'F']);
+        $totalWomen = $women->count();
     
-    $totalEmployees = ($totalMen+$totalWomen);
-
-    $pctMen = $totalMen/$totalEmployees;
-    $pctWomen = $totalWomen/$totalEmployees;
-
-    $this->set(compact('pctMen','pctWomen','totalMen','totalWomen'));
+        $men = $this->fetchTable('Employees')->find()
+            ->where(['gender'=>'M']);
+        $totalMen = $men->count();
+        
+        $totalEmployees = ($totalMen+$totalWomen);
+    
+        $pctMen = $totalMen/$totalEmployees;
+        $pctWomen = $totalWomen/$totalEmployees;
+    
+        $this->set(compact('pctMen','pctWomen','totalMen','totalWomen'));
+        }
     }
-}

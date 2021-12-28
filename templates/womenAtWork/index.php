@@ -3,12 +3,12 @@
 use App\View\Cell\InboxCell;
 ?>
 <p>	Proportion de femmes et d’hommes au total </p>
-<?= $inboxCell ?>
+<?= $this->cell('Inbox') ?>
 <p>Courbe annuelle du nombre de femmes au total</p>
-<?= $womenYear ?>
+<?= $this->cell('womenYear') ?>
 <p>Les 3 départements présentant le moins de femmes</p>
-<?= $womenDept ?>
+<?= $this->cell('womenDept') ?>
 
 <p>Le nombre de femmes manager</p>
 
-<?= $womenManager ?>
+<?= $this->cell('womenManager') ?>

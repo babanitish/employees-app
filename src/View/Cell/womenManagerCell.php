@@ -38,18 +38,14 @@ class WomenManagerCell extends Cell
        
         $query = $this->getTableLocator()->get('employees')->find();
 
-        $query->select([
-            'nbWomenManager' => $query->func()->count('employees.emp_no')
-        ])
+        $query->select('all')
             ->innerJoinWith('deptManager')
             ->where([
                 'gender' => 'F',
             ]);
             
-        $result = $query->all();
-        foreach ($result as $woManager) {
-           return $woManager;
-        }
+        $woManager = $query->count();
+        
         $this->set(compact('woManager'));
     }
 }

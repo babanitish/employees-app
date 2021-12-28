@@ -47,6 +47,8 @@ class DepartmentsTable extends Table
             'foreignKey'=>'dept_no',
             'targetForeignKey'=>'emp_no',
         ]);
+        
+        
 
         
     }
