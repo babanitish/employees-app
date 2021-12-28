@@ -35,8 +35,7 @@ class WomenYearCell extends Cell
      */
     public function display()
     {
-        $arrayWomen = [];
-        $arrayYear = [];
+        $womenPerYear = [];
 
         $query = $this->getTableLocator()->get('employees')->find();
 
@@ -51,12 +50,13 @@ class WomenYearCell extends Cell
             ]);
         $result = $query->all();
 
-        foreach ($result as $employee) {
-            if (!in_array($employee->hire_date->format('Y'), $arrayYear)) {
-                $arrayWomen[] = $employee->nbWomen;
-                $arrayYear [] = $employee->hire_date->format('Y');
+        foreach ($result as $date) {
+            if (!array_key_exists($date->hire_date->format('Y'), $womenPerYear)) {
+                $womenPerYear[$date->hire_date->format('Y')] = $date->nbWomen;
+            } else {
+                $womenPerYear[$date->hire_date->format('Y')] += $date->nbWomen;
             }
         }
-        $this->set(compact('arrayWomen','arrayYear'));
+        $this->set(compact('womenPerYear'));
     }
 }

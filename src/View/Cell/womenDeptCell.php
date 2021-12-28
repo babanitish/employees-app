@@ -41,32 +41,37 @@ class WomenDeptCell extends Cell
         $nbDeptLessWo = [];
         $query = $this->getTableLocator()->get('employees')->find();
 
-        $query->select([
-            'depName' => 'departments.dept_name',
-            'nbWomenDept' => $query->func()->count('employees.emp_no')
-        ])
+        $leastWomen = $query->select([
+            'deptName' => 'departments.dept_name',
+            'nbWomen' => $query->func()->count('employees.emp_no')
+                ])
             ->innerJoinWith('departments')
             ->where([
                 'gender' => 'F',
-            ])
+                ])
             ->group([
                 'departments.dept_no'
-            ])
+                ])
 
-            ->orderAsc($query->func()->count('employees.emp_no'));
-        $result = $query->all();
-        $cpt = 0;
-        foreach ($result as $dept) {
-            $cpt++;
-            if ($cpt < 4) {
-                $deptNameMoreWo[] = $dept->depName;
-                $nbWomenDept[] = $dept->nbWomenDept;
-            }
-            if ($cpt > 6) {
-                $deptNameLessWo[] = $dept->depName;
-                $nbDeptLessWo[] = $dept->nbWomenDept;
-            }
-        }
-        $this->set(compact('deptNameMoreWo', 'nbWomenDept','deptNameLessWo','nbDeptLessWo'));
+            ->orderAsc($query->func()->count('employees.emp_no'))
+            ->limit(3);
+        $query = $this->getTableLocator()->get('employees')->find();
+        $mostWomen =  $query->select([
+            'deptName' => 'departments.dept_name',
+            'nbWomen' => $query->func()->count('employees.emp_no')
+                ])
+            ->innerJoinWith('departments')
+            ->where([
+                'gender' => 'F',
+                ])
+            ->group([
+                'departments.dept_no'
+                ])
+            
+            ->orderDesc($query->func()->count('employees.emp_no'))
+            ->limit(3);
+            
+            
+        $this->set(compact('mostWomen', 'leastWomen'));
     }
 }

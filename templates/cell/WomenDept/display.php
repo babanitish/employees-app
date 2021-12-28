@@ -1,17 +1,13 @@
-<p>
-<?php foreach($deptNameMoreWo as $deptName):?>
-    <?= $deptName ?>
-<?php endforeach; ?>
-</p>
-<p>
-<?php foreach($nbWomenDept as $nbWomen):?>
-    <?= $nbWomen ?>
-<?php endforeach; ?>
-</p>
 <p>Les 3 départements présentant le plus de femmes</p>
-<?php foreach($deptNameLessWo as $nbDeptLessW):?>
-    <?= $nbDeptLessW ?>
+<p>
+<?php foreach($mostWomen as $dept):?>
+    <?= "$dept->deptName : $dept->nbWomen <br/>" ?>
 <?php endforeach; ?>
-<?php foreach($nbDeptLessWo as $DeptLessW):?>
-    <?= $DeptLessW ?>
+</p>
+
+<p>Les 3 départements présentant le moins de femmes</p>
+<p>
+<?php foreach($leastWomen as $dept):?>
+    <?= "$dept->deptName : $dept->nbWomen <br/>" ?>
 <?php endforeach; ?>
+</p>
