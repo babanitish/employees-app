@@ -58,7 +58,7 @@ $this->disableAutoLayout();
     
                   <?= $this->Html->link(
                         'Women At Work',
-                        ['controller' => 'WomenAtWork', 'action' => 'indexWomen'],
+                        ['controller' => 'WomenAtWork', 'action' => 'index'],
                         ['class'=>'u-social-url']
                   )?>
                   <?= $this->Html->link(

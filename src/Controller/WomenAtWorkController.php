@@ -2,6 +2,8 @@
 declare(strict_types=1);
 
 namespace App\Controller;
+use Cake\View\CellTrait;
+
 
 /**
  * WomenAtWork Controller
@@ -10,16 +12,20 @@ namespace App\Controller;
  */
 class WomenAtWorkController extends AppController
 {
+  use CellTrait;
+
     /**
      * Index method
      *
      * @return \Cake\Http\Response|null|void Renders view
      */
-    function indexWomen()
+    function index()
     {
-          // $inboxCell = $this->cell('inbox');
 
-       
+           $inboxCell = $this->cell('inbox');
+           $womenYear = $this->cell('womenYear');
+
+       $this->set(compact('inboxCell','womenYear'));
 
     }
 
