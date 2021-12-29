@@ -18,6 +18,8 @@
                 <legend><?= __('Add Department') ?></legend>
                 <?php
                     echo $this->Form->control('dept_name');
+                    echo $this->Form->control('description', ['type'=>'text', 'lines'=>'6']);
+                    echo $this->Form->control('address');
                 ?>
             </fieldset>
             <?= $this->Form->button(__('Submit')) ?>

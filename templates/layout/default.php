@@ -9,7 +9,7 @@ $this->disableAutoLayout();
     <meta name="keywords" content="App Development">
     <meta name="description" content="">
     <meta name="page_type" content="np-template-header-footer-from-plugin">
-    <title>seo 1</title>
+    <title>Portail</title>
     <!--<link rel="stylesheet" href="./css/nicepage.css" media="screen">-->
 	<!--<link rel="stylesheet" href="css/nicepage_index.css" media="screen">-->
     <!--<script class="u-script" type="text/javascript" src="/webroot/js/jquery-1.9.1.min.js" defer=""></script>-->
@@ -67,8 +67,8 @@ $this->disableAutoLayout();
                         ['class'=>'u-social-url']
                   )?>
                    <?= $this->Html->link(
-                        'Job offers',
-                      '#',
+                        'Job Offers',
+                      ['controller' => 'Offers', 'action' => 'index'],
                         ['class'=>'u-social-url']
                   )?>
             </div>
