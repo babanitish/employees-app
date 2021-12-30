@@ -19,7 +19,7 @@
             <h3><?= h($department->dept_no) ?></h3>
             <table>
             <tr>
-                    <td><?= $this->Html->image(h($department->picture), [
+                    <td><?= $this->Html->image(h('departments/'.$department->picture), [
                                     "alt" => "manager picture",
                                     "width"=>100,
                                     "class"=>"card-img-top"
@@ -33,6 +33,51 @@
                     <th><?= __('Dept Name') ?></th>
                     <td><?= h($department->dept_name) ?></td>
                 </tr>
+                
+                <tr>
+                    <th><?= __('Description') ?></th>
+                    <td><?= h($department->description) ?></td>
+                </tr>
+                
+                <tr>
+                    <th><?= __('Current Manager') ?></th>
+                    <td>
+                    	<?= $this->Html->image('employees/'.$department->manager->picture)?>
+                    	<?= '<br>'.$department->manager->first_name.' '.$department->manager->last_name ?>
+                    </td>
+                </tr>
+                <tr>
+                    <th><?= __('Adresse') ?></th>
+                    <td><?= h($department->address) ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('ROI') ?></th>
+                    <td><?= $this->Html->link(__('Telecharger le ROI'), '/docs/ROI/'.$department->roi, ['download'=>$department->roi]) ?></td>
+                </tr>
+                
+            </table>
+            
+            <h3><?= __('Managers') ?></h3>
+            
+            <table>
+            	<thead>
+                	<tr>
+                		<th>From</th>
+                		<th>To</th>
+                		<th>Salary</th>
+                	</tr>
+                </thead>
+                <?php foreach($department->managers as $manager) {?>
+                
+                <tbody>
+                <tr>
+                	<td><?= h($manager->first_name.' '.$manager->last_name) ?></td>
+                    <td><?= $this->Time->format($manager->_joinData->from_date, 'd/M/Y') ?></td>
+                    <td><?= $this->Time->format($manager->_joinData->to_date, 'd/M/Y') ?></td>
+                    
+                </tr>
+                <?php } ?>
+                </tbody>
             </table>
         </div>
     </div>

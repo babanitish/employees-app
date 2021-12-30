@@ -42,8 +42,10 @@ class EmployeesTable extends Table
         $this->setPrimaryKey('emp_no');
 
 
-        $this->hasMany('Salaries',[
-            'foreignKey' => 'emp_no',
+        $this->belongsToMany('Departments', [
+            'through'=>'DeptEmp',
+            'foreignKey'=>'emp_no',
+            'targetForeignKey'=>'dept_no'
         ]);
 
     }

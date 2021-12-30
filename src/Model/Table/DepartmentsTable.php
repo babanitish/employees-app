@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
+use Cake\Datasource\EntityInterface;
+use Cake\Event\Event;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -36,11 +38,22 @@ class DepartmentsTable extends Table
     public function initialize(array $config): void
     {
         parent::initialize($config);
-
+        
+        
         $this->setTable('departments');
         $this->setDisplayField('dept_no');
         $this->setPrimaryKey('dept_no');
-
+        $this->belongsToMany('Employees', [
+            'through'=>'dept_emp',
+            'foreignKey'=>'dept_no',
+        ]);
+        
+        $this->belongsToMany('Managers', [
+            'className' => 'Employees',
+            'through' => 'DeptManager',
+            'foreignKey'=>'dept_no',
+            'targetForeignKey'=>'emp_no'
+        ]);
 
         
     }
@@ -54,19 +67,53 @@ class DepartmentsTable extends Table
     public function validationDefault(Validator $validator): Validator
     {
         $validator
-            ->scalar('dept_no')
-            ->maxLength('dept_no', 4)
-            ->allowEmptyString('dept_no', null, 'create');
-
+        ->scalar('dept_no')
+        ->maxLength('dept_no', 4)
+        ->allowEmptyString('dept_no', null, 'create');
+        
         $validator
-            ->scalar('dept_name')
-            ->maxLength('dept_name', 40)
-            ->requirePresence('dept_name', 'create')
-            ->notEmptyString('dept_name')
-            ->add('dept_name', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
-
+        ->scalar('dept_name')
+        ->maxLength('dept_name', 40)
+        ->requirePresence('dept_name', 'create')
+        ->notEmptyString('dept_name')
+        ->add('dept_name', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
+        
+        $validator
+        ->scalar('description')
+        ->maxLength('description', 255);
+        
+        $validator
+        ->scalar('picture')
+        ->maxLength('picture', 50);
+        
+        $validator
+        ->scalar('address')
+        ->maxLength('address', 255);
+        
+        $validator
+        ->scalar('roi')
+        ->maxLength('address', 100);
+        
+        
         return $validator;
     }
+    
+    public function findLastId(Query $query, $options){
+        $query->select(['lastId'=>$query->func()->max('dept_no', ['latin1_swedish_ci'])]);
+        return $query;
+    }
+    
+    public function beforeSave(Event $event, EntityInterface $entity, $options) {
+        if ($entity->isNew()){
+            $lastId = $this->find('lastId')->first()->lastId;
+            $number = substr($lastId, 1);
+            $number++;
+            $number = sprintf("d%'.03d", $number);
+            $entity->dept_no = $number;
+        }
+        
+    }
+    
 
     /**
      * Returns a rules checker object that will be used for validating

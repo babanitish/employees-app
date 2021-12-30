@@ -1,38 +1,40 @@
 <?php
 /**
  * @var \App\View\AppView $this
- * @var \App\Model\Entity\Department[]|\Cake\Collection\CollectionInterface $departments
+ * @var \App\Model\Entity\Offer[]|\Cake\Collection\CollectionInterface $offers
  */
 ?>
-<div class="departments index content">
-    <?= $this->Html->link(__('New Department'), ['action' => 'add'], ['class' => 'button float-right']) ?>
-    <h3><?= __('Departments') ?></h3>
+<div class="offers index content">
+    <h3><?= __('Offers') ?></h3>
     <div class="table-responsive">
+    
         <table>
             <thead>
                 <tr>
-                    <th><?= $this->Paginator->sort('dept_no') ?></th>
-                    <th><?= $this->Paginator->sort('dept_name') ?></th>
-                    <th>Nb. Employees</th>
+                    <th><?= $this->Paginator->sort('Department') ?></th>
+                    <th><?= $this->Paginator->sort('Title') ?></th>
+                    <th colspan="2"><?= __('Description') ?></th>
+                    
                     <th class="actions"><?= __('Actions') ?></th>
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($departments as $department): ?>
+                <?php foreach ($offers as $offer): ?>
                 <tr>
-                    <td><?= h($department->dept_no) ?></td>
-                    <td><?= h($department->dept_name) ?></td>
-                    <td><?= $this->Number->format(h($department->nbEmployees)) ?></td>
+                    <td><?= h($offer->department->dept_name) ?></td>
+                    <td><?= h($offer->title->name) ?></td>
+                    <td><?= h($offer->description) ?></td>
+                    <td><?= $this->Html->link(__('Postuler'), ['action' => 'apply', $offer->offer_no])?></td>
                     <td class="actions">
 						<?= $this->Html->link(__('<i class="fas fa-eye"></i>'), 
-						    ['action' => 'view', $department->dept_no],
+						    ['action' => 'view', $offer->offer_no],
                             ['escape' => false]) ?>
                         <?= $this->Html->link('<i class="fas fa-edit"></i>', 
-                            ['action' => 'edit', $department->dept_no],
+                            ['action' => 'edit', $offer->offer_no],
                             ['escape' => false]) ?>
                         <?= $this->Form->postLink('<i class="fas fa-trash"></i>', 
-                            ['action' => 'delete', $department->dept_no],
-                            ['escape' => false,'confirm' => __('Are you sure you want to delete # {0}?', $department->dept_no)]) ?>
+                            ['action' => 'delete', $offer->offer_no],
+                            ['escape' => false,'confirm' => __('Are you sure you want to delete # {0}?', $offer->offer_no)]) ?>
                     </td>
                 </tr>
                 <?php endforeach; ?>
