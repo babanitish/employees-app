@@ -16,7 +16,6 @@ use Cake\ORM\Entity;
 class Offer extends Entity
 {
 
-
     use \Cake\ORM\Locator\LocatorAwareTrait;
 
     /**

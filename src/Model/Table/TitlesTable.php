@@ -42,6 +42,7 @@ class TitlesTable extends Table
         $this->setPrimaryKey('title_no');   
         $this->hasMany('Offers')
         ->setForeignKey('title_no');
+
     }
 
     /**
