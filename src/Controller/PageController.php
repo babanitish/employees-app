@@ -16,6 +16,7 @@ class PageController extends AppController
 
 
     public function home(){
+        $this->Authorization->skipAuthorization();
         $qrCode = new QrCode();
         $qrCode 
             -> setText ( 'https://www.lesoir.be/' )

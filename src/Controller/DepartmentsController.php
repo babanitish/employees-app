@@ -36,6 +36,7 @@ class DepartmentsController extends AppController
      */
     public function view($id = null)
     {
+        $this->Authorization->skipAuthorization();
         $department = $this->Departments->get($id, [
             'contain' => ['Managers', 'Offers'],
         ]);
@@ -74,6 +75,11 @@ class DepartmentsController extends AppController
         $department = $this->Departments->get($id, [
             'contain' => [],
         ]);
+        
+        $this->Authorization->authorize($department, 'edit');
+        
+        
+        
         if ($this->request->is(['patch', 'post', 'put'])) {
             $department = $this->Departments->patchEntity($department, $this->request->getData());
             
