@@ -6,13 +6,13 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * Title Entity
+ * Partner Entity
  *
- * @property int $title_no
+ * @property int $id
  * @property string $name
- * @property string $description
+ * @property string $link
  */
-class Title extends Entity
+class Partner extends Entity
 {
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
@@ -24,8 +24,8 @@ class Title extends Entity
      * @var array
      */
     protected $_accessible = [
-        'title_no'=>true,
         'name' => true,
-        'description' => true,
+        'link' => true,
+        'picture'=>true,
     ];
 }

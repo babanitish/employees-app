@@ -15,7 +15,9 @@ use Cake\ORM\Entity;
  */
 class Offer extends Entity
 {
+
     use \Cake\ORM\Locator\LocatorAwareTrait;
+
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
      *
@@ -30,6 +32,7 @@ class Offer extends Entity
         'title_no' => true,
         'description' => true,
     ];
+
     
     protected function _getTitleName(){
         $query = $this->getTableLocator()->get('Titles')->find()
@@ -38,4 +41,5 @@ class Offer extends Entity
         
         return $query->first()->name;
     }
+
 }
