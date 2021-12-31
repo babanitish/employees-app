@@ -18,8 +18,11 @@ class DepartmentsController extends AppController
      */
     public function index()
     {
-        $this->Authorization->skipAuthorization();
-        $departments = $this->paginate($this->Departments);
+        $departments = $this->Departments->find('all', [
+            'contain'=>'Offers'
+        ]);
+        
+        $departments = $this->paginate($departments);
 
         $this->set(compact('departments'));
     }
@@ -35,7 +38,7 @@ class DepartmentsController extends AppController
     {
         $this->Authorization->skipAuthorization();
         $department = $this->Departments->get($id, [
-            'contain' => ['Managers'],
+            'contain' => ['Managers', 'Offers'],
         ]);
         $this->set(compact('department'));
     }
