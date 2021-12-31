@@ -54,6 +54,10 @@ class DepartmentsTable extends Table
             'foreignKey'=>'dept_no',
             'targetForeignKey'=>'emp_no'
         ]);
+        
+        $this->hasMany('Offers')
+            ->setForeignKey('dept_no');
+
 
         
     }
