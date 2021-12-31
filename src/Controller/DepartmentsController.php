@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use Cake\View\ViewBuilder;
+
 /**
  * Departments Controller
  *
@@ -18,6 +20,9 @@ class DepartmentsController extends AppController
      */
     public function index()
     {
+        $this->Authorization->skipAuthorization();
+        
+        
         $departments = $this->Departments->find('all', [
             'contain'=>'Offers'
         ]);
@@ -25,6 +30,8 @@ class DepartmentsController extends AppController
         $departments = $this->paginate($departments);
 
         $this->set(compact('departments'));
+        
+        if($this->Authentication->getIdentity()->isAdmin) $this->viewBuilder()->setTemplate('admin/index');
     }
 
     /**
@@ -41,6 +48,8 @@ class DepartmentsController extends AppController
             'contain' => ['Managers', 'Offers'],
         ]);
         $this->set(compact('department'));
+        
+        
     }
 
     /**
