@@ -21,6 +21,7 @@ class OffersController extends AppController
      */
     public function index()
     {
+        $this->Authorization->skipAuthorization();
         $offers = $this->Offers->find('all', ['contain'=>['titles', 'departments']]);
         $offers = $this->paginate($offers);
 
@@ -36,6 +37,7 @@ class OffersController extends AppController
      */
     public function view($id = null)
     {
+        $this->Authorization->skipAuthorization();
         $offer = $this->Offers->get($id, [
             'contain' => [],
         ]);
@@ -52,6 +54,7 @@ class OffersController extends AppController
      */
     public function apply($id = null)
     {
+        $this->Authorization->skipAuthorization();
         $offer = $this->Offers->get($id, [
             'contain' => ['titles', 'departments'],
         ]);
