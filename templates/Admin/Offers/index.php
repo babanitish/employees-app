@@ -24,12 +24,17 @@
                     <td><?= h($offer->department->dept_name) ?></td>
                     <td><?= h($offer->title->name) ?></td>
                     <td><?= h($offer->description) ?></td>
-                    <td><?= $this->Html->link(__('Postuler'), ['action' => 'apply', $offer->offer_no])?></td>
                     <td class="actions">
 						<?= $this->Html->link(__('<i class="fas fa-eye"></i>'), 
 						    ['action' => 'view', $offer->offer_no],
                             ['escape' => false]) ?>
-                        </td>
+                        <?= $this->Html->link('<i class="fas fa-edit"></i>', 
+                            ['action' => 'edit', $offer->offer_no],
+                            ['escape' => false]) ?>
+                        <?= $this->Form->postLink('<i class="fas fa-trash"></i>', 
+                            ['action' => 'delete', $offer->offer_no],
+                            ['escape' => false,'confirm' => __('Are you sure you want to delete # {0}?', $offer->offer_no)]) ?>
+                    </td>
                 </tr>
                 <?php endforeach; ?>
             </tbody>
