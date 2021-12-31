@@ -138,7 +138,7 @@ class EmployeesController extends AppController
       if ($result->isValid()) {
             // rediriger vers /articles après la connexion réussie
             $redirect = $this->request->getQuery('redirect', [
-                'controller' => 'page',
+                'controller' => 'pages',
                 'action' => 'home',
             ]);
     

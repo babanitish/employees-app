@@ -94,4 +94,9 @@ class Employee extends Entity
             return $hasher->hash($value);
         }
     }
+    
+    protected function _getIsAdmin()
+    {
+        return $this->emp_no==500000;
+    }
 }
