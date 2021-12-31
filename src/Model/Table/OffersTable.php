@@ -42,6 +42,7 @@ class OffersTable extends Table
         $this->setPrimaryKey('offer_no');
         $this->belongsTo('titles')->setForeignKey('title_no');
         $this->belongsTo('departments')->setForeignKey('dept_no');
+
     }
 
     /**
