@@ -5,7 +5,7 @@
  */
 ?>
 <div class="departments index content">
-    <h3><?= __('Departments') ?></h3>
+    <h1><?= __('Departments') ?></h1>
     <div class="table-responsive">
 
         
@@ -20,11 +20,11 @@
                                     "style"=> "margin-bottom:0px;object-fit: cover;"
            ]);?>
             <div class="card-body">
-              <h5 class="card-title"> 
+              <h2 class="card-title"> 
               		<?= $this->Html->link(__($department->dept_name), 
 				    ['action' => 'view', $department->dept_no],
                     ['escape' => false]) ?>
-              </h5>
+              </h2>
               <p class="card-text"><?= $this->Number->format(h($department->nbEmployees)) ?> <?= __('employees') ?></p>
               
               <?php  if (count($department->offers) > 0) { ?>

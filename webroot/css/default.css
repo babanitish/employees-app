@@ -13,3 +13,18 @@
 .container{
 	padding-bottom:60px;
 }
+
+.index h1{
+	font-size: 2.5rem
+}
+
+.index h2{
+	font-size: 1.7rem
+}
+
+.card-img-top {
+	display:block;
+	margin:auto;
+	height:250px;
+	width:auto;
+}

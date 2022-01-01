@@ -22,8 +22,8 @@ class DepartmentsController extends AppController
      */
     public function index()
     {
+        //tout le monde peut voir cette page
         $this->Authorization->skipAuthorization();
-        
         
         $departments = $this->Departments->find('all', [
             'contain'=>'Offers'
@@ -32,8 +32,6 @@ class DepartmentsController extends AppController
         $departments = $this->paginate($departments);
 
         $this->set(compact('departments'));
-        
-        //if($this->Authentication->getIdentity()->isAdmin) $this->viewBuilder()->setTemplate('admin/index');
     }
 
     /**
