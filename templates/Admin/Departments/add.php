@@ -4,26 +4,24 @@
  * @var \App\Model\Entity\Department $department
  */
 ?>
-<div class="row">
-    <aside class="column">
-        <div class="side-nav">
-            <h4 class="heading"><?= __('Actions') ?></h4>
-            <?= $this->Html->link(__('List Departments'), ['action' => 'index'], ['class' => 'side-nav-item']) ?>
-        </div>
-    </aside>
-    <div class="column-responsive column-80">
-        <div class="departments form content">
-            <?= $this->Form->create($department) ?>
-            <fieldset>
-                <legend><?= __('Add Department') ?></legend>
-                <?php
-                    echo $this->Form->control('dept_name');
-                    echo $this->Form->control('description', ['type'=>'text', 'lines'=>'6']);
-                    echo $this->Form->control('address');
-                ?>
-            </fieldset>
-            <?= $this->Form->button(__('Submit')) ?>
-            <?= $this->Form->end() ?>
-        </div>
-    </div>
+<div class="departments form content">
+    <?= $this->Form->create($department , ['enctype' => 'multipart/form-data']) ?>
+        <legend><?= __('Ajouter un département ') ?></legend>
+        <?php
+        echo $this->Form->control('dept_name', ['label' => __('Nom')]);
+            echo '<label for="description">'.__('Description').'</label>';
+            echo $this->Form->textarea('description', ['type'=>'text', 'rows'=>'6']);
+            echo $this->Form->control('address', ['label' => __('Addresse')]);
+            
+            echo '<p><span>Upload new picture: </span>';
+            echo $this->Form->file('uploadedPic', ['required'=>false]).'<p/>';
+            
+            echo '<p><span>Upload new ROI: </span>';
+            echo $this->Form->file('uploadedROI', ['required'=>false]).'<p/>';
+            
+            
+        ?>
+    <?= $this->Form->button(__('Submit')) ?>
+    <?= $this->Form->end() ?>
 </div>
+

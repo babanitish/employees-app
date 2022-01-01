@@ -36,3 +36,15 @@
 .view h1, .view h2, .view h3, .view h4, .view h5, .view h6{
 	color: #494399;
 } 
+
+.view-options{
+	text-align:right;
+}
+.view-options > *{
+	margin:5px 10px;
+}
+
+
+legend {
+    font-size: 2.5rem;
+}

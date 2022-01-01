@@ -12,37 +12,36 @@ use Authorization\IdentityInterface;
 class DepartmentPolicy
 {
     /**
-     * Check if $user can add Employee
+     * Check if $user can add Department
      *
      * @param \Authorization\IdentityInterface $user The user.
-     * @param \App\Model\Entity\Employee $employee
+     * @param \App\Model\Entity\Department $department
      * @return bool
      */
     public function canAdd(IdentityInterface $user, Department $department)
     {
+        return true;
     }
 
     /**
-     * Check if $user can edit Employee
+     * Check if $user can edit Department
      *
      * @param \Authorization\IdentityInterface $user The user.
-     * @param \App\Model\Entity\Employee $employee
+     * @param \App\Model\Entity\Department $department
      * @return bool
      */
     public function canEdit(IdentityInterface $user, Department $department)
     {
-        //déterminer si user est manager
-        
-        //si oui vérifier qu'il est du même départment
+        //dï¿½terminer si user est manager de ce dÃ©partement
         //return $user->getOriginalData()->isManager && ($department->dept_no == $user->getOriginalData()->currentDepartment);
-        return false;
+        return true;
     }
 
     /**
-     * Check if $user can delete Employee
+     * Check if $user can delete Department
      *
      * @param \Authorization\IdentityInterface $user The user.
-     * @param \App\Model\Entity\Employee $employee
+     * @param \App\Model\Entity\Department $department
      * @return bool
      */
     public function canDelete(IdentityInterface $user, Department $department)
@@ -50,10 +49,10 @@ class DepartmentPolicy
     }
 
     /**
-     * Check if $user can view Employee
+     * Check if $user can view Department
      *
      * @param \Authorization\IdentityInterface $user The user.
-     * @param \App\Model\Entity\Employee $employee
+     * @param \App\Model\Entity\Department $department
      * @return bool
      */
     public function canView(IdentityInterface $user, Department $department)

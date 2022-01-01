@@ -44,7 +44,7 @@ class Department extends Entity
         $query = $this->getTableLocator()->get('DeptManager')->find('all', ['contain' => ['Employees']])->innerJoinWith('Employees')
         ->where(['dept_no'=>$this->dept_no, 'to_date'=>'9999-01-01']);
         
-        return $query->first()->employee;
+        return $query->first() ? $query->first()->employee : null;
     }
     
 }

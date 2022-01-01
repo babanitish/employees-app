@@ -7,7 +7,7 @@
 
 
 <div class="departments view content">
-    <h1><?= __($department->dept_name) ?></h3>
+    <h1><?= __($department->dept_name) ?></h1>
     <?= $this->Html->image(h('departments/'.$department->picture), [
                             "alt" => __("Photo d'équipe du départment"),
                             "class"=>"card-img-top"
@@ -25,8 +25,12 @@
         <tr>
             <th><?= __('Manager actuel') ?></th>
             <td>
+            <?php if ($department->manager) { ?>
             	<?= $department->manager->picture ? $this->Html->image('employees/'.$department->manager->picture).'<br>' : ''?>
             	<?= $department->manager->first_name.' '.$department->manager->last_name ?>
+            <?php } else { ?>
+            	<?= __('Aucun manager actuellement') ?>
+            <?php } ?>
             </td>
         </tr>
         <tr>
@@ -43,30 +47,33 @@
         
     </table>
     
-    <h2><?= __('Managers') ?></h3>
-    
-    <table>
-    	<thead>
-        	<tr>
-        		<th><?= __('Nom') ?></th>
-        		<th><?= __('Date de début') ?></th>
-        		<th><?= __('Date de fin') ?></th>
-        	</tr>
-        </thead>
-        <?php foreach($department->managers as $manager) {?>
-        
-        <tbody>
-        <tr>
-        	<td><?= $manager->first_name.' '.$manager->last_name ?></td>
-            <td><?= $this->Time->format($manager->_joinData->from_date, 'd/M/Y') ?></td>
-            <td><?= $this->Time->format($manager->_joinData->to_date, 'd/M/Y')=='1/1/9999' ? __('Présent') :  $this->Time->format($manager->_joinData->to_date, 'd/M/Y')?></td>
+    <h2><?= __('Managers') ?></h2>
+    <?php  if(count($department->managers)>0){ ?>
+        <table>
+        	<thead>
+            	<tr>
+            		<th><?= __('Nom') ?></th>
+            		<th><?= __('Date de début') ?></th>
+            		<th><?= __('Date de fin') ?></th>
+            	</tr>
+            </thead>
+            <?php foreach($department->managers as $manager) {?>
             
-        </tr>
-        <?php } ?>
-        </tbody>
-    </table>
+            <tbody>
+            <tr>
+            	<td><?= $manager->first_name.' '.$manager->last_name ?></td>
+                <td><?= $this->Time->format($manager->_joinData->from_date, 'd/M/Y') ?></td>
+                <td><?= $this->Time->format($manager->_joinData->to_date, 'd/M/Y')=='1/1/9999' ? __('Présent') :  $this->Time->format($manager->_joinData->to_date, 'd/M/Y')?></td>
+                
+            </tr>
+            <?php } ?>
+            </tbody>
+        </table>
+    <?php } else { ?>
+    	<p><?= __('Aucun manager') ?></p>
+    <?php } ?>
     
-    <h2><?= __('Postes vacants') ?></h3>
+    <h2><?= __('Postes vacants') ?></h2>
     
     <?php if (!empty($department->offers)) { ?>
     <table>
