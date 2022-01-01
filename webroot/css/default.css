@@ -28,3 +28,11 @@
 	height:250px;
 	width:auto;
 }
+
+.index h1, .index h2, .index h3, .index h4, .index h5, .index h6{
+	color: #494399;
+} 
+
+.view h1, .view h2, .view h3, .view h4, .view h5, .view h6{
+	color: #494399;
+} 
