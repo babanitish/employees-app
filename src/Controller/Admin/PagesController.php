@@ -14,7 +14,7 @@ declare(strict_types=1);
  * @since     0.2.9
  * @license   https://opensource.org/licenses/mit-license.php MIT License
  */
-namespace App\Controller;
+namespace App\Controller\Admin;
 
 use Cake\Core\Configure;
 use Cake\Http\Exception\ForbiddenException;
@@ -22,7 +22,7 @@ use Cake\Http\Exception\NotFoundException;
 use Cake\Http\Response;
 use Cake\View\Exception\MissingTemplateException;
 use  CodeItNow\BarcodeBundle\Utils\QrCode ;
-
+use App\Controller\AppController;
 /**
  * Static content controller
  *
@@ -71,7 +71,9 @@ class PagesController extends AppController
             }
             throw new NotFoundException();
         }
-    } public function home(){
+    }
+    
+    public function home(){
         $this->Authorization->skipAuthorization();
         $qrCode = new QrCode();
         $qrCode
