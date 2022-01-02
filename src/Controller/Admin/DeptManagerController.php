@@ -186,6 +186,7 @@ class DeptManagerController extends AppController
     {
         $this->Authorization->skipAuthorization();
         
+        //verifier si on a cet employé comme manager actuel
         $deptManager = $this->DeptManager->find()
             ->where( ['deptManager.emp_no'=>$id, 'to_date'=>'9999-01-01'])
             ->first();
