@@ -22,18 +22,15 @@ class DepartmentsController extends AppController
      */
     public function index()
     {
+        //tout le monde peut voir cette page
         $this->Authorization->skipAuthorization();
-        
         
         $departments = $this->Departments->find('all', [
             'contain'=>'Offers'
         ]);
-        
         $departments = $this->paginate($departments);
 
         $this->set(compact('departments'));
-        
-        //if($this->Authentication->getIdentity()->isAdmin) $this->viewBuilder()->setTemplate('admin/index');
     }
 
     /**
@@ -62,8 +59,51 @@ class DepartmentsController extends AppController
     public function add()
     {
         $department = $this->Departments->newEmptyEntity();
+        
+        //tout le monde peut add
+        $this->Authorization->authorize($department, 'add');
+        
         if ($this->request->is('post')) {
             $department = $this->Departments->patchEntity($department, $this->request->getData());
+            $department->picture = '';
+            $department->roi = '';
+            //get uploaded picture
+            if (!empty($this->request->getData('uploadedPic'))){
+                $fileObject = $this->request->getData('uploadedPic');
+                $fileName = $fileObject->getClientFilename();
+                if (!empty($fileName)){
+                    if ($fileObject->getClientMediaType()=="image/jpeg" && $fileObject->getSize()<500000){
+                        //save document
+                        $fileName = $department->dept_no.'.jpg';
+                        $destination = 'img/departments/' .$fileName ;
+                        $fileObject->moveTo($destination);
+                        $department->picture = $fileName;
+                    } else {
+                        $this->Flash->error(__('The department could not be saved. Invalid Picture'));
+                        $this->set(compact('department'));
+                        return;
+                    }
+                }
+            }
+            //get uploaded roi pdf
+            if (!empty($this->request->getData('uploadedROI'))){
+                $fileObject = $this->request->getData('uploadedROI');
+                $fileName = $fileObject->getClientFilename();
+                if (!empty($fileName)){
+                    if ($fileObject->getClientMediaType()=="application/pdf" && $fileObject->getSize()<500000){
+                        //save document
+                        $fileName = $department->dept_no.'.pdf';
+                        $destination = 'docs/ROI/' .$fileName ;
+                        $fileObject->moveTo($destination);
+                        $department->roi = $fileName;
+                    } else {
+                        $this->Flash->error(__('The department could not be saved. Invalid ROI'));
+                        $this->set(compact('department'));
+                        return;
+                    }
+                }
+            }
+            
             if ($this->Departments->save($department)) {
                 $this->Flash->success(__('The department has been saved.'));
 
@@ -87,6 +127,7 @@ class DepartmentsController extends AppController
             'contain' => [],
         ]);
         
+        //le manager de ce département peut edit
         $this->Authorization->authorize($department, 'edit');
         
         
@@ -94,41 +135,45 @@ class DepartmentsController extends AppController
         if ($this->request->is(['patch', 'post', 'put'])) {
             $department = $this->Departments->patchEntity($department, $this->request->getData());
             
-            //get uploaded picture and roi pdf
+            //get uploaded picture
             if (!empty($this->request->getData('uploadedPic'))){
-                $fileobject = $this->request->getData('uploadedPic');
-                $fileName = $fileobject->getClientFilename();
-                dd($fileobject);
-                if (!empty($filename)){
-                    //TODO check size and file type
-                    
-                    //save img
-                    $destination = 'img/departments/' .$fileName ;
-                    $fileobject->moveTo($destination);
-                    $department->picture = $fileName;
+                $fileObject = $this->request->getData('uploadedPic');
+                $fileName = $fileObject->getClientFilename();
+                if (!empty($fileName)){
+                    if ($fileObject->getClientMediaType()=="image/jpeg" && $fileObject->getSize()<500000){
+                        //save document
+                        $fileName = $department->dept_no.'.jpg';
+                        $destination = 'img/departments/' .$fileName ;
+                        $fileObject->moveTo($destination);
+                        $department->picture = $fileName;
+                    } else {
+                        $this->Flash->error(__('The department could not be saved. Invalid Picture'));
+                        $this->set(compact('department'));
+                        return;
+                    }
                 }
-                
-                
             }
+            //get uploaded roi pdf
             if (!empty($this->request->getData('uploadedROI'))){
-                $fileobject = $this->request->getData('uploadedROI');
-                $fileName = $fileobject->getClientFilename();
-                if (!empty($filename)){
-                    //TODO check size and file type
-                    
-                    //save pdf
-                    $destination = 'docs/ROI/' .$fileName ;
-                    $fileobject->moveTo($destination);
-                    $department->roi = $fileName;
+                $fileObject = $this->request->getData('uploadedROI');
+                $fileName = $fileObject->getClientFilename();
+                if (!empty($fileName)){
+                    if ($fileObject->getClientMediaType()=="application/pdf" && $fileObject->getSize()<500000){
+                        //save document
+                        $fileName = $department->dept_no.'.pdf';
+                        $destination = 'docs/ROI/' .$fileName ;
+                        $fileObject->moveTo($destination);
+                        $department->roi = $fileName;
+                    } else {
+                        $this->Flash->error(__('The department could not be saved. Invalid ROI'));
+                        $this->set(compact('department'));
+                        return;
+                    }
                 }
-                
-                
             }
-            
             
             if ($this->Departments->save($department)) {
                 $this->Flash->success(__('The department has been saved.'));
-
                 return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('The department could not be saved. Please, try again.'));
@@ -147,7 +192,12 @@ class DepartmentsController extends AppController
     {
         $this->request->allowMethod(['post', 'delete']);
         $department = $this->Departments->get($id);
-        if ($this->Departments->delete($department)) {
+        
+        $this->Authorization->authorize($department, 'delete');
+        
+        if($department->nbEmployees>0){
+            $this->Flash->error(__('The department could not be deleted as it currently has employees.'));
+        } else if ($this->Departments->delete($department)) {
             $this->Flash->success(__('The department has been deleted.'));
         } else {
             $this->Flash->error(__('The department could not be deleted. Please, try again.'));

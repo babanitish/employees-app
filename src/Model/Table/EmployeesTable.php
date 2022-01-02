@@ -47,6 +47,8 @@ class EmployeesTable extends Table
             'foreignKey'=>'emp_no',
             'targetForeignKey'=>'dept_no'
         ]);
+        
+        $this->hasMany('DeptEmp')->setForeignKey('emp_no');
 
     }
 
@@ -90,5 +92,10 @@ class EmployeesTable extends Table
             ->notEmptyDate('hire_date');
 
         return $validator;
+    }
+    
+    public function findFilterByName(Query $query, $options){
+        $query->where('first_name LIKE "%'.$options['keyword'].'%" or last_name LIKE "%'.$options['keyword'].'%"');
+        return $query;
     }
 }

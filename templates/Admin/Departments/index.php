@@ -36,17 +36,14 @@
                         <?= $this->Form->postLink('<i class="fas fa-trash"></i>', 
                             ['action' => 'delete', $department->dept_no],
                             ['escape' => false,'confirm' => __('Are you sure you want to delete # {0}?', $department->dept_no)]) ?>
+                    	<?= $this->Form->postLink('<i class="fas fa-users"></i>', 
+                    	    ['controller'=>'deptManager', 'action' => 'Department', $department->dept_no],
+                            ['escape' => false]) ?>
+                    
                     </td>
                 </tr>
                 <?php endforeach; ?>
             </tbody>
         </table>
-
-        
-        
-
-        </div>
-          
-</div>
-   
+    </div>
 </div>
