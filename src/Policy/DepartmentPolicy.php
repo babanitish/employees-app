@@ -46,6 +46,7 @@ class DepartmentPolicy
      */
     public function canDelete(IdentityInterface $user, Department $department)
     {
+        return true;
     }
 
     /**

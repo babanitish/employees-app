@@ -192,7 +192,12 @@ class DepartmentsController extends AppController
     {
         $this->request->allowMethod(['post', 'delete']);
         $department = $this->Departments->get($id);
-        if ($this->Departments->delete($department)) {
+        
+        $this->Authorization->authorize($department, 'delete');
+        
+        if($department->nbEmployees>0){
+            $this->Flash->error(__('The department could not be deleted as it currently has employees.'));
+        } else if ($this->Departments->delete($department)) {
             $this->Flash->success(__('The department has been deleted.'));
         } else {
             $this->Flash->error(__('The department could not be deleted. Please, try again.'));

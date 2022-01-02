@@ -7,8 +7,6 @@
 <div class="departments index content">
     <h1><?= __('Departments') ?></h1>
     <div class="table-responsive">
-
-        
         <div class="card-deck">
           <?php foreach ($departments as $department): ?>
           <div class="card">
@@ -37,7 +35,5 @@
           </div>
           <?php endforeach; ?>
         </div>
-          
-</div>
-   
+	</div>
 </div>
