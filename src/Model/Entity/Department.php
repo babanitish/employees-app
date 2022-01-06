@@ -47,4 +47,22 @@ class Department extends Entity
         return $query->first() ? $query->first()->employee : null;
     }
     
+    /**
+     * Retourne le salaire moyen des employés de ce département en excluant les managers
+     */
+    protected function _getAverageEmployeeSalary(){
+        //trouver le manager
+        $managerId = $this->manager->emp_no;
+        //trouver les employes non manager
+        $query = $this->getTableLocator()->get('DeptEmp')->find();
+        $result = $query->select(['average' => $query->func()->avg('salary')])
+            ->where(['DeptEmp.dept_no'=>$this->dept_no, 
+                'DeptEmp.to_date'=>'9999-01-01', 
+                'DeptEmp.emp_no IS NOT' => $managerId
+            ])
+            ->rightJoin(['Salaries'=>'salaries'], ['Salaries.emp_no=DeptEmp.emp_no','Salaries.from_date=DeptEmp.from_date' ]);
+        return number_format($result->first()->average, 2);
+        
+    }
+    
 }
