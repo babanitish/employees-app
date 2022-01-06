@@ -37,6 +37,10 @@
             <th><?= __('Adresse') ?></th>
             <td><?= h($department->address) ?></td>
         </tr>
+        <tr>
+            <th><?= __('Salaire moyen') ?></th>
+            <td><?= $department->averageEmployeeSalary ?>&#128</td>
+        </tr>
         <?php //if($this->request->getAttribute('authentication')->getIdentity()->currentDepartment == $department->dept_no) { ?>
         <tr>
         	

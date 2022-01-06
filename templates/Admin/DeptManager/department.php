@@ -6,7 +6,7 @@
 ?>
 <?php //dd($deptManagers) ?>
 <div class="deptManager view content">
-	<?= $this->Html->link(__('Retour au départements'), ['controller'=>'departments','action'=>'index']) ?>
+	<?= $this->Html->link(__('Retour aux départements'), ['controller'=>'departments','action'=>'index']) ?>
      <h1><?= __('Managers du départment '.$dept_no) ?></h1>
     <?php  if(count($deptManagers)>0){ ?>
         <table>

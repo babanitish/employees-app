@@ -39,6 +39,9 @@
                     	<?= $this->Form->postLink('<i class="fas fa-users"></i>', 
                     	    ['controller'=>'deptManager', 'action' => 'Department', $department->dept_no],
                             ['escape' => false]) ?>
+                        <?= $this->Form->postLink(__('Offers'), 
+                    	    ['controller'=>'offers', 'action' => 'Department', $department->dept_no],
+                            ['escape' => false]) ?>
                     
                     </td>
                 </tr>
