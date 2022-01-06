@@ -41,7 +41,7 @@ class OffersController extends AppController
     {
         $this->Authorization->skipAuthorization();
         $offer = $this->Offers->get($id, [
-            'contain' => [],
+            'contain' => ['departments', 'titles'],
         ]);
 
         $this->set(compact('offer'));
@@ -58,13 +58,11 @@ class OffersController extends AppController
     {
         $this->Authorization->skipAuthorization();
         $offers = $this->Offers->find('all', ['contain'=>['titles', 'departments']])->where(['Offers.dept_no'=>$dept_no])->find('all');
-        
-        
+
         $offers = $this->paginate($offers);
         
         $this->set(compact('offers'));
         $this->set(compact('dept_no'));
-        
         
     }
     
@@ -86,23 +84,9 @@ class OffersController extends AppController
             //check department_no exists
             $dept_no = $this->request->getData()['dept_no'];
             $title_no = $this->request->getData()['title_no'];
-            $validDept = $this->getTableLocator()->get('Departments')
-            ->find()
-            ->where(['dept_no'=>$dept_no])
-            ->count();
             
-            //check title_no exists
-            $validTitle = $this->getTableLocator()->get('Titles')
-            ->find()
-            ->where(['title_no'=>$title_no])
-            ->count();
-            
-            
-            if ($validDept!=1){
-                $this->Flash->error(__('Departement non trouvé'));
-            } else if ($validTitle!=1) {
-                $this->Flash->error(__('Title non trouvé'));
-                return $this->redirect(['action' => 'department', $dept_no]);
+            if (!$this->checkDeptTitleValidity($dept_no, $title_no)){
+                $this->Flash->error(__('Departement ou title non trouvé'));
             }
            
             //save data into db
@@ -122,6 +106,21 @@ class OffersController extends AppController
         $this->set(compact('offer'));
         
     }
+    
+    private function checkDeptTitleValidity($dept_no, $title_no){
+        $validDept = $this->getTableLocator()->get('Departments')
+        ->find()
+        ->where(['dept_no'=>$dept_no])
+        ->count();
+        
+        //check title_no exists
+        $validTitle = $this->getTableLocator()->get('Titles')
+        ->find()
+        ->where(['title_no'=>$title_no])
+        ->count();
+        
+        return $validDept==1 && $validTitle==1;
+    }
 
     /**
      * Edit method
@@ -139,6 +138,15 @@ class OffersController extends AppController
         $this->Authorization->authorize($offer, 'edit');
         
         if ($this->request->is(['patch', 'post', 'put'])) {
+            //check department_no exists
+            $dept_no = $this->request->getData()['dept_no'];
+            $title_no = $this->request->getData()['title_no'];
+            
+            if (!$this->checkDeptTitleValidity($dept_no, $title_no)){
+                $this->Flash->error(__('Departement ou title non trouvé'));
+            }
+            
+            
             $offer = $this->Offers->patchEntity($offer, $this->request->getData());
             if ($this->Offers->save($offer)) {
                 $this->Flash->success(__('The offer has been saved.'));
@@ -148,6 +156,9 @@ class OffersController extends AppController
             $this->Flash->error(__('The offer could not be saved. Please, try again.'));
         }
         $this->set(compact('offer'));
+        //get list of department and titles for dropdowns
+        $this->set('departments', $this->Offers->departments->find('all')->combine('dept_no', 'dept_name'));
+        $this->set('titles', $this->Offers->titles->find('all')->combine('title_no', 'name'));
     }
 
     /**

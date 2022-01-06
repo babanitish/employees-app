@@ -5,6 +5,7 @@
  */
 ?>
 <div class="offers view content">
+
 	<?= $this->Html->Link(__('View all offers'), ['controller'=>'offers', 'action'=>'index'])?>
 	<?= $this->Html->Link(__('View department'), ['controller'=>'departments', 'action'=>'view', $offer->dept_no])?>
 	<div class="view-options">
@@ -20,21 +21,18 @@
         <h3><?= h($offer->offer_no) ?></h3>
         <table>
             <tr>
-                <th><?= __('Dept No') ?></th>
-                <td><?= h($offer->dept_no) ?></td>
+                <th><?= __('Department') ?></th>
+                <td><?= h($offer->department->dept_name) ?></td>
+            </tr>
+            <tr>
+                <th><?= __('Title') ?></th>
+                <td><?= h($offer->title->name) ?></td>
             </tr>
             <tr>
                 <th><?= __('Description') ?></th>
                 <td><?= h($offer->description) ?></td>
             </tr>
-            <tr>
-                <th><?= __('Offer No') ?></th>
-                <td><?= $this->Number->format($offer->offer_no) ?></td>
-            </tr>
-            <tr>
-                <th><?= __('Title No') ?></th>
-                <td><?= $this->Number->format($offer->title_no) ?></td>
-            </tr>
+            
         </table>
 
 
