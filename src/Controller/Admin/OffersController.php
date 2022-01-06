@@ -47,6 +47,27 @@ class OffersController extends AppController
         $this->set(compact('offer'));
     }
     
+    /**
+     * View offers for a department
+     *
+     * @param string|null $id Offer id.
+     * @return \Cake\Http\Response|null|void Renders view
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function department($dept_no = null)
+    {
+        $this->Authorization->skipAuthorization();
+        $offers = $this->Offers->find('all', ['contain'=>['titles', 'departments']])->where(['Offers.dept_no'=>$dept_no])->find('all');
+        
+        
+        $offers = $this->paginate($offers);
+        
+        $this->set(compact('offers'));
+        $this->set(compact('dept_no'));
+        
+        
+    }
+    
    
 
     /**
@@ -56,17 +77,50 @@ class OffersController extends AppController
      */
     public function add()
     {
+        $this->Authorization->skipAuthorization();
+        
         $offer = $this->Offers->newEmptyEntity();
+        
+        //treat form submission
         if ($this->request->is('post')) {
+            //check department_no exists
+            $dept_no = $this->request->getData()['dept_no'];
+            $title_no = $this->request->getData()['title_no'];
+            $validDept = $this->getTableLocator()->get('Departments')
+            ->find()
+            ->where(['dept_no'=>$dept_no])
+            ->count();
+            
+            //check title_no exists
+            $validTitle = $this->getTableLocator()->get('Titles')
+            ->find()
+            ->where(['title_no'=>$title_no])
+            ->count();
+            
+            
+            if ($validDept!=1){
+                $this->Flash->error(__('Departement non trouvé'));
+            } else if ($validTitle!=1) {
+                $this->Flash->error(__('Title non trouvé'));
+                return $this->redirect(['action' => 'department', $dept_no]);
+            }
+           
+            //save data into db
             $offer = $this->Offers->patchEntity($offer, $this->request->getData());
             if ($this->Offers->save($offer)) {
                 $this->Flash->success(__('The offer has been saved.'));
-
                 return $this->redirect(['action' => 'index']);
+            } else {
+                $this->Flash->error(__('The offer could not be saved. Please, try again.'));
             }
-            $this->Flash->error(__('The offer could not be saved. Please, try again.'));
+            
         }
+        //get list of department and titles for dropdowns
+        $this->set('departments', $this->Offers->departments->find('all')->combine('dept_no', 'dept_name'));
+        $this->set('titles', $this->Offers->titles->find('all')->combine('title_no', 'name'));
+        
         $this->set(compact('offer'));
+        
     }
 
     /**
@@ -78,15 +132,18 @@ class OffersController extends AppController
      */
     public function edit($id = null)
     {
+        
         $offer = $this->Offers->get($id, [
             'contain' => [],
         ]);
+        $this->Authorization->authorize($offer, 'edit');
+        
         if ($this->request->is(['patch', 'post', 'put'])) {
             $offer = $this->Offers->patchEntity($offer, $this->request->getData());
             if ($this->Offers->save($offer)) {
                 $this->Flash->success(__('The offer has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['action' => 'view', $id]);
             }
             $this->Flash->error(__('The offer could not be saved. Please, try again.'));
         }
@@ -104,6 +161,9 @@ class OffersController extends AppController
     {
         $this->request->allowMethod(['post', 'delete']);
         $offer = $this->Offers->get($id);
+        
+        $this->Authorization->authorize($offer, 'edit');
+        
         if ($this->Offers->delete($offer)) {
             $this->Flash->success(__('The offer has been deleted.'));
         } else {

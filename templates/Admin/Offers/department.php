@@ -5,9 +5,13 @@
  */
 ?>
 <div class="offers index content">
-	<?= $this->Html->link(__('New Offer'), ['action' => 'add'], ['class' => 'button float-right']) ?>
+	<?= $this->Html->Link(__('View all offers'), ['controller'=>'offers', 'action'=>'index'])?>
+	<?= $this->Html->Link(__('View department'), ['controller'=>'departments', 'action'=>'view', $dept_no])?>
     <h3><?= __('Offers') ?></h3>
     <div class="table-responsive">
+    <?php if(count($offers)==0) { ?>
+    	<p><?= __('No offers in department '.$dept_no)?>
+    <?php } else { ?>
     
         <table>
             <thead>
@@ -49,4 +53,5 @@
         </ul>
         <p><?= $this->Paginator->counter(__('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')) ?></p>
     </div>
+    <?php } ?>
 </div>

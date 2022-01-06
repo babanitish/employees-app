@@ -37,7 +37,6 @@ class OffersController extends AppController
      */
     public function view($id = null)
     {
-        $this->Authorization->skipAuthorization();
         $offer = $this->Offers->get($id, [
             'contain' => [],
         ]);
