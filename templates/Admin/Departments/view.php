@@ -16,10 +16,11 @@
                     ['escape' => false,'confirm' => __('Are you sure you want to delete # {0}?', $department->dept_no)]) ?>
     </div>
     <h1><?= __($department->dept_name) ?></h1>
-    <?= $this->Html->image(h('departments/'.$department->picture), [
-                            "alt" => __("Photo d'équipe du départment"),
-                            "class"=>"card-img-top"
-                    ]);?>
+    <?php if ($department->picture) 
+            echo $this->Html->image(h('departments/'.$department->picture), [
+                "alt" => __("Photo d'équipe du départment"),
+                "class"=>"card-img-top"
+                    ])?>
     <table>
         <tr>
             <th><?= __('Numéro de départmement') ?></th>
@@ -50,7 +51,7 @@
         <tr>
         	
             <th><?= __('ROI') ?></th>
-            <td><?= $this->Html->link(__('Telecharger le ROI'), '/docs/ROI/'.$department->roi, ['download'=>$department->roi]) ?></td>
+            <td><?= $department->roi ? $this->Html->link(__('Telecharger le ROI'), '/docs/ROI/'.$department->roi, ['download'=>$department->roi]) : '' ?></td>
         </tr>
        <?php //} ?>
         

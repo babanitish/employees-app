@@ -7,8 +7,11 @@
 
 
 <div class="departments view content">
+	<div class="view-options">
+		<?= $this->Html->link('<i class="fas fa-arrow-circle-left"></i> '.__('All departments '), ['action'=>'index'],['escape' => false])?>
+	</div>
     <h1><?= __($department->dept_name) ?></h1>
-    <?= $this->Html->image(h('departments/'.$department->picture), [
+    <?php if($department->picture) echo $this->Html->image('departments/'.$department->picture, [
                             "alt" => __("Photo d'équipe du départment"),
                             "class"=>"card-img-top"
                     ]);?>
@@ -39,13 +42,13 @@
         </tr>
         <tr>
             <th><?= __('Salaire moyen') ?></th>
-            <td><?= $department->averageEmployeeSalary ?>&#128</td>
+            <td><?= $department->nbEmployees > 0  ? $department->averageEmployeeSalary.'&#128' : __('Aucun employé')?></td>
         </tr>
         <?php //if($this->request->getAttribute('authentication')->getIdentity()->currentDepartment == $department->dept_no) { ?>
         <tr>
         	
             <th><?= __('ROI') ?></th>
-            <td><?= $this->Html->link(__('Telecharger le ROI'), '/docs/ROI/'.$department->roi, ['download'=>$department->roi]) ?></td>
+            <td><?= $department->roi ? $this->Html->link(__('Telecharger le ROI'), '/docs/ROI/'.$department->roi, ['download'=>$department->roi]) : '' ?></td>
         </tr>
        <?php //} ?>
         

@@ -48,7 +48,7 @@ class EmployeesTable extends Table
             'targetForeignKey'=>'dept_no'
         ]);
         
-        $this->hasMany('DeptEmp')->setForeignKey('emp_no');
+        //$this->hasMany('DeptEmp')->setForeignKey('emp_no');
 
     }
 
