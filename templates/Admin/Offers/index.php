@@ -6,7 +6,7 @@
 ?>
 <div class="offers index content">
 	<?= $this->Html->link(__('New Offer'), ['action' => 'add'], ['class' => 'button float-right']) ?>
-    <h3><?= __('Offers') ?></h3>
+    <h1><?= __('Offers') ?></h1>
     <div class="table-responsive">
     
         <table>
@@ -20,8 +20,8 @@
             <tbody>
                 <?php foreach ($offers as $offer): ?>
                 <tr>
-                    <td><?= h($offer->department->dept_name) ?></td>
-                    <td><?= h($offer->title->name) ?></td>
+                    <td><?= $offer->department->dept_name ?></td>
+                    <td><?= $offer->title->name ?></td>
                     <td><?= h($offer->description) ?></td>
                     <td class="actions">
 						<?= $this->Html->link(__('<i class="fas fa-eye"></i>'), 

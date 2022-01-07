@@ -34,11 +34,14 @@ class Offer extends Entity
     ];
 
     
+    /**
+     * Get the title name of a job offer
+     * 
+     * @return String The title name
+     */
     protected function _getTitleName(){
         $query = $this->getTableLocator()->get('Titles')->find()
         ->where(['title_no'=>$this->title_no]);
-        
-        
         return $query->first()->name;
     }
 

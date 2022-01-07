@@ -5,9 +5,8 @@
  */
 ?>
 <div class="offers index content">
-	<?= $this->Html->Link(__('View all offers'), ['controller'=>'offers', 'action'=>'index'])?>
 	<?= $this->Html->Link(__('View department'), ['controller'=>'departments', 'action'=>'view', $dept_no])?>
-    <h3><?= __('Offers') ?></h3>
+    <h1><?= __('Offers') ?></h1>
     <div class="table-responsive">
     <?php if(count($offers)==0) { ?>
     	<p><?= __('No offers in department '.$dept_no)?>

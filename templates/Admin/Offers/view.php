@@ -5,9 +5,7 @@
  */
 ?>
 <div class="offers view content">
-
-	<?= $this->Html->Link(__('View all offers'), ['controller'=>'offers', 'action'=>'index'])?>
-	<?= $this->Html->Link(__('View department'), ['controller'=>'departments', 'action'=>'view', $offer->dept_no])?>
+	<?= $this->Html->Link('<i class="fas fa-arrow-circle-left"></i> '.__('All offers'), ['action'=>'index'],['escape' => false])?>
 	<div class="view-options">
                 <?= $this->Html->link('<i class="fas fa-edit"></i>', 
                     ['action' => 'edit', $offer->offer_no],

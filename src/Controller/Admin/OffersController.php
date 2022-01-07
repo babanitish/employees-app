@@ -58,9 +58,7 @@ class OffersController extends AppController
     {
         $this->Authorization->skipAuthorization();
         $offers = $this->Offers->find('all', ['contain'=>['titles', 'departments']])->where(['Offers.dept_no'=>$dept_no])->find('all');
-
         $offers = $this->paginate($offers);
-        
         $this->set(compact('offers'));
         $this->set(compact('dept_no'));
         
@@ -75,10 +73,9 @@ class OffersController extends AppController
      */
     public function add()
     {
-        $this->Authorization->skipAuthorization();
-        
         $offer = $this->Offers->newEmptyEntity();
         
+        $this->Authorization->authorize($offer, 'add');
         //treat form submission
         if ($this->request->is('post')) {
             //check department_no exists
@@ -107,6 +104,14 @@ class OffersController extends AppController
         
     }
     
+    
+    /**
+     * Checks if title_no and dept_no exist in database
+     * 
+     * @param String $dept_no
+     * @param String $title_no
+     * @return boolean
+     */
     private function checkDeptTitleValidity($dept_no, $title_no){
         $validDept = $this->getTableLocator()->get('Departments')
         ->find()
@@ -173,7 +178,7 @@ class OffersController extends AppController
         $this->request->allowMethod(['post', 'delete']);
         $offer = $this->Offers->get($id);
         
-        $this->Authorization->authorize($offer, 'edit');
+        $this->Authorization->authorize($offer, 'delete');
         
         if ($this->Offers->delete($offer)) {
             $this->Flash->success(__('The offer has been deleted.'));
