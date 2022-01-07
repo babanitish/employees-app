@@ -6,7 +6,8 @@
 ?>
 
 <div class="departments view content">
-    
+   	<?= $this->Html->Link('<i class="fas fa-arrow-circle-left"></i> '.__('All departments'), ['action'=>'index'],['escape' => false])?>
+   
     <div class="view-options">
                 <?= $this->Html->link('<i class="fas fa-edit"></i>', 
                     ['action' => 'edit', $department->dept_no],
@@ -21,6 +22,7 @@
                 "alt" => __("Photo d'équipe du départment"),
                 "class"=>"card-img-top"
                     ])?>
+
     <table>
         <tr>
             <th><?= __('Numéro de départmement') ?></th>
