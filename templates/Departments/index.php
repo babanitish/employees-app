@@ -10,7 +10,7 @@
         <div class="card-deck">
           <?php foreach ($departments as $department): ?>
           <div class="card">
-            <?= $this->Html->image(h('departments/'.$department->picture), [
+            <?php if($department->picture) echo $this->Html->image('departments/'.$department->picture, [
                                     "alt" => "department picture",
                                     "class" =>"card-img-top",
                                     "width"=>"250px",
