@@ -5,9 +5,12 @@
  */
 ?>
 <div class="offers index content">
-	<?= $this->Html->link(__('New Offer'), ['action' => 'add'], ['class' => 'button float-right']) ?>
+	<?= $this->Html->Link(__('View department'), ['controller'=>'departments', 'action'=>'view', $dept_no])?>
     <h1><?= __('Offers') ?></h1>
     <div class="table-responsive">
+    <?php if(count($offers)==0) { ?>
+    	<p><?= __('No offers in department '.$dept_no)?>
+    <?php } else { ?>
     
         <table>
             <thead>
@@ -20,8 +23,8 @@
             <tbody>
                 <?php foreach ($offers as $offer): ?>
                 <tr>
-                    <td><?= $offer->department->dept_name ?></td>
-                    <td><?= $offer->title->name ?></td>
+                    <td><?= h($offer->department->dept_name) ?></td>
+                    <td><?= h($offer->title->name) ?></td>
                     <td><?= h($offer->description) ?></td>
                     <td class="actions">
 						<?= $this->Html->link(__('<i class="fas fa-eye"></i>'), 
@@ -49,4 +52,5 @@
         </ul>
         <p><?= $this->Paginator->counter(__('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')) ?></p>
     </div>
+    <?php } ?>
 </div>

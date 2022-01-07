@@ -6,7 +6,8 @@
 ?>
 
 <div class="departments view content">
-    
+   	<?= $this->Html->Link('<i class="fas fa-arrow-circle-left"></i> '.__('All departments'), ['action'=>'index'],['escape' => false])?>
+   
     <div class="view-options">
                 <?= $this->Html->link('<i class="fas fa-edit"></i>', 
                     ['action' => 'edit', $department->dept_no],
@@ -16,7 +17,7 @@
                     ['escape' => false,'confirm' => __('Are you sure you want to delete # {0}?', $department->dept_no)]) ?>
     </div>
     <h1><?= __($department->dept_name) ?></h1>
-    <?= $this->Html->image(h('departments/'.$department->picture), [
+    <?= $this->Html->image('departments/'.$department->picture, [
                             "alt" => __("Photo d'équipe du départment"),
                             "class"=>"card-img-top"
                     ]);?>

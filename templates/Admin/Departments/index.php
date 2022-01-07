@@ -6,7 +6,7 @@
 ?>
 <div class="departments index content">
     <?= $this->Html->link(__('New Department'), ['action' => 'add'], ['class' => 'button float-right']) ?>
-    <h3><?= __('Departments') ?></h3>
+    <h1><?= __('Departments') ?></h1>
     <div class="table-responsive">
 
         <table>
@@ -24,8 +24,8 @@
                 <tr>
                     <td><?= h($department->dept_no) ?></td>
                     <td><?= h($department->dept_name) ?></td>
-                    <td><?= $this->Number->format(h($department->nbEmployees)) ?></td>
-                    <td><?= h(count($department->offers)) ?></td>
+                    <td><?= $this->Number->format($department->nbEmployees) ?></td>
+                    <td><?= count($department->offers) ?></td>
                     <td class="actions">
 						<?= $this->Html->link(__('<i class="fas fa-eye"></i>'), 
 						    ['action' => 'view', $department->dept_no],
