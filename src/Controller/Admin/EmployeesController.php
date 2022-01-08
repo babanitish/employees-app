@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Admin;
 
 use App\Controller\AppController;
-
+use App\Model\Entity\Employee;
 use Cake\I18n\FrozenDate;
 
 /**
@@ -72,18 +72,42 @@ class EmployeesController extends AppController
         $this->Authorization->skipAuthorization();
 
         $employee = $this->Employees->newEmptyEntity();
+        // $dept_no = $this->request->getData('department');
         if ($this->request->is('post')) {
-            $employee = $this->Employees->patchEntity($employee, $this->request->getData());
-            if ($this->Employees->save($employee)) {
-                $this->Flash->success(__('The employee has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+            //dernier id
+            $query = $this->Employees->find('all', ['order' => ['emp_no' => 'DESC']])->limit(1)->first();
+            //dd($query);
+            $lastEmp_no = $query->emp_no + 1;
+            $employee = $this->Employees->patchEntity($employee,  $this->request->getData());
+
+            if ($this->Employees->save($employee)) {
+                $employee = $this->Employees->get($lastEmp_no);
+                $query = $this->Employees->Dept_emp->query();
+                $result = $query->insert(['emp_no', 'dept_no', 'from_date', 'to_date'])
+                    ->values([
+                        'emp_no' => $lastEmp_no,
+                        'dept_no' =>  $this->request->getData('department'),
+                        'from_date' => date('Y-m-d'),
+                        'to_date' => '9999-01-01',
+                    ])
+                    ->execute();
+
+                if ($result) {
+                    $this->Flash->success(__('The employee has been saved.'));
+
+                    return $this->redirect(['action' => 'index']);
+                } else {
+                    $this->Flash->error(__('The employee could not be saved. Please, try again.'));
+                }
+            } else {
+                $this->Flash->error(__('The employee could not be saved. Please, try again.'));
             }
-            $this->Flash->error(__('The employee could not be saved. Please, try again.'));
         }
+       // $departments = $this->getTableLocator()->get('departments')->find('list', ['keyfield' => 'id', 'valueField' => 'dept_name']);
+     $this->set('departments', $this->departments->find('all')->combine('dept_no', 'dept_name'));
         $this->set(compact('employee'));
     }
-
     /**
      * Edit method
      *
