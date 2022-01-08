@@ -59,17 +59,21 @@ class Employee extends Entity
     }
     
     protected function _getCurrentDepartment() {
-        $currentDept = null;
-        
-        $dateInfinie = new FrozenDate('9999-01-01');
-        foreach($this->departments as $department){    
-            if ($department->_joinData->to_date->equals($dateInfinie)){
-                $currentDept = $department;
-                break;
-            }
+        //dd($this);
+        try{
+            $department = $this->getTableLocator()->get('departments')
+            ->find()
+            ->where([
+                'emp_no' => $this->emp_no,
+                'to_date' => '9999-01-01',
+            ]);
+            //dd($department->first());
+        } catch (\Exception $e) {
+            return null;
         }
+      
         
-        return $currentDept;
+        return $department->dept_no;
     }
     
     protected function _getIsManager(){

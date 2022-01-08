@@ -5,7 +5,8 @@
  */
 ?>
 <div class="offers index content">
-    <h3><?= __('Offers') ?></h3>
+	<?= $this->Html->link(__('New Offer'), ['action' => 'add'], ['class' => 'button float-right']) ?>
+    <h1><?= __('Offers') ?></h1>
     <div class="table-responsive">
     
         <table>
@@ -14,15 +15,13 @@
                     <th><?= $this->Paginator->sort('Department') ?></th>
                     <th><?= $this->Paginator->sort('Title') ?></th>
                     <th colspan="2"><?= __('Description') ?></th>
-                    
-                    <th class="actions"><?= __('Actions') ?></th>
                 </tr>
             </thead>
             <tbody>
                 <?php foreach ($offers as $offer): ?>
                 <tr>
-                    <td><?= h($offer->department->dept_name) ?></td>
-                    <td><?= h($offer->title->name) ?></td>
+                    <td><?= $offer->department->dept_name ?></td>
+                    <td><?= $offer->title->name ?></td>
                     <td><?= h($offer->description) ?></td>
                     <td class="actions">
 						<?= $this->Html->link(__('<i class="fas fa-eye"></i>'), 

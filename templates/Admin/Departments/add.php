@@ -4,26 +4,29 @@
  * @var \App\Model\Entity\Department $department
  */
 ?>
-<div class="row">
-    <aside class="column">
-        <div class="side-nav">
-            <h4 class="heading"><?= __('Actions') ?></h4>
-            <?= $this->Html->link(__('List Departments'), ['action' => 'index'], ['class' => 'side-nav-item']) ?>
-        </div>
-    </aside>
-    <div class="column-responsive column-80">
-        <div class="departments form content">
-            <?= $this->Form->create($department) ?>
-            <fieldset>
-                <legend><?= __('Add Department') ?></legend>
-                <?php
-                    echo $this->Form->control('dept_name');
-                    echo $this->Form->control('description', ['type'=>'text', 'lines'=>'6']);
-                    echo $this->Form->control('address');
-                ?>
-            </fieldset>
-            <?= $this->Form->button(__('Submit')) ?>
-            <?= $this->Form->end() ?>
-        </div>
-    </div>
+<div class="departments form content">
+	<div class="view-options">
+		<?= $this->Html->link('<i class="fas fa-arrow-circle-left"></i> '.__('All departments '), ['action'=>'index'],['escape' => false])?>
+	</div>
+    <?= $this->Form->create($department , ['enctype' => 'multipart/form-data']) ?>
+        <h1><?= __('Ajouter un département ') ?></h1>
+
+        <?= $this->Form->control('dept_name', ['label' => __('Nom')]) ?>
+            <label for="description"><?= __('Description') ?></label>
+            <?= $this->Form->textarea('description', ['type'=>'text', 'rows'=>'6']) ?>
+            <?= $this->Form->control('address', ['label' => __('Addresse')]) ?>
+            
+            <div>
+            	<label><?= __('Upload picture ') ?></label><br>
+            	<?= $this->Form->file('uploadedPic', ['required'=>false]) ?>
+            </div>
+            
+            <div>
+            	<label><?=  __('Upload ROI') ?></label><br>
+            	<?= $this->Form->file('uploadedROI', ['required'=>false]) ?>
+            </div>
+  
+    <?= $this->Form->button(__('Submit')) ?>
+    <?= $this->Form->end() ?>
 </div>
+

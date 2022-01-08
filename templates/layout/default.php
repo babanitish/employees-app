@@ -21,11 +21,12 @@ $this->disableAutoLayout();
     <link id="u-theme-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:300,300i,400,400i,500,500i,700,700i|Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i">
     <link id="u-page-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i|Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i|Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i|Oswald:200,300,400,500,600,700">
  	
-    <?= $this->Html->css('default'); ?>
+    
     <?= $this->Html->css('nicepage'); ?>
     <?= $this->Html->css('nicepage_index'); ?>
     <?= $this->Html->script('jquery-1.9.1.min.js'); ?>
     <?= $this->Html->script('nicepage'); ?>
+    <?= $this->Html->css('default'); ?>
     
     <script type="application/ld+json">{
 		"@context": "http://schema.org",
@@ -47,7 +48,7 @@ $this->disableAutoLayout();
             <div class="u-social-icons u-spacing-10 u-social-icons-1">
                   <?= $this->Html->link(
                         'Home',
-                      ['controller' => 'page', 'action' => 'home'],
+                      ['controller' => 'pages', 'action' => 'home'],
                         ['class'=>'u-social-url']
                   )?>
                   <?= $this->Html->link(
@@ -58,7 +59,7 @@ $this->disableAutoLayout();
     
                   <?= $this->Html->link(
                         'Women At Work',
-                      '#',
+                        ['controller' => 'WomenAtWork', 'action' => 'index'],
                         ['class'=>'u-social-url']
                   )?>
                   <?= $this->Html->link(
@@ -75,7 +76,7 @@ $this->disableAutoLayout();
         </div>
     </header>
     
-    <main class="main <?= ($this->request->getAttribute('params')['controller']!='Page' || $this->request->getAttribute('params')['action']!='home') ? 'container' : '' ?>">
+    <main class="main <?= ($this->request->getAttribute('params')['controller']!='Pages' || $this->request->getAttribute('params')['action']!='home') ? 'container' : '' ?>">
     		
 
             <?= $this->Flash->render() ?>
