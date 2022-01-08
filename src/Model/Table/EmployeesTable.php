@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -43,16 +44,21 @@ class EmployeesTable extends Table
 
 
         $this->belongsToMany('Departments', [
-            'through'=>'DeptEmp',
-            'foreignKey'=>'emp_no',
-            'targetForeignKey'=>'dept_no'
+            'through' => 'DeptEmp',
+            'foreignKey' => 'emp_no',
+            'targetForeignKey' => 'dept_no'
         ]);
-        
-        //$this->hasMany('DeptEmp')->setForeignKey('emp_no');
-
-        $this->hasMany('DeptEmp',[
+        $this->belongsToMany('departments', [
+            'joinTable' => 'dept_emp',
+            'targetForeignKey' => 'dept_no',
+            'foreignKey' => 'emp_no',
+            'bindingKey' => 'emp_no',
+            'conditions' => ['DeptEmp.to_date' => '9999-01-01']
+        ]);
+        $this->hasMany('deptManager', [
             'foreignKey' => 'emp_no'
         ]);
+        $this->hasMany('DeptEmp')->setForeignKey('emp_no');
     }
 
     /**
@@ -96,9 +102,10 @@ class EmployeesTable extends Table
 
         return $validator;
     }
-    
-    public function findFilterByName(Query $query, $options){
-        $query->where('first_name LIKE "%'.$options['keyword'].'%" or last_name LIKE "%'.$options['keyword'].'%"');
+
+    public function findFilterByName(Query $query, $options)
+    {
+        $query->where('first_name LIKE "%' . $options['keyword'] . '%" or last_name LIKE "%' . $options['keyword'] . '%"');
         return $query;
     }
 }

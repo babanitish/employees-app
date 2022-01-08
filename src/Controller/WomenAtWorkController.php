@@ -21,15 +21,7 @@ class WomenAtWorkController extends AppController
      */
     function index()
     {
-
-           //$inboxCell = $this->cell('inbox');
-           //$womenYear = $this->cell('womenYear');
-           //$womenDept = $this->cell('womenDept');
-           //$womenManager = $this->cell('womenManager');
-
-
-
-       //$this->set(compact('inboxCell','womenYear','womenDept','womenManager'));
+      $this->Authorization->skipAuthorization();
 
     }
 
