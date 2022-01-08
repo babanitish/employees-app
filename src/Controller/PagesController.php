@@ -44,19 +44,6 @@ class PagesController extends AppController
      *   be found and not in debug mode.
      * @throws \Cake\View\Exception\MissingTemplateException In debug mode.
      */
-<<<<<<< HEAD
-=======
-    public function display(string ...$path): ?Response
-    {
-        $this->Authorization->skipAuthorization();
-        if (!$path) {
-            return $this->redirect('/');
-        }
-        if (in_array('..', $path, true) || in_array('.', $path, true)) {
-            throw new ForbiddenException();
-        }
-        $page = $subpage = null;
->>>>>>> master
 
     public function home(){
      
@@ -97,32 +84,5 @@ class PagesController extends AppController
     }
     public function contact(){
 
-<<<<<<< HEAD
-=======
-        try {
-            return $this->render(implode('/', $path));
-        } catch (MissingTemplateException $exception) {
-            if (Configure::read('debug')) {
-                throw $exception;
-            }
-            throw new NotFoundException();
-        }
-    } public function home(){
-        $this->Authorization->skipAuthorization();
-        $qrCode = new QrCode();
-        $qrCode
-        -> setText ( 'https://www.lesoir.be/' )
-        -> setSize ( 100 )
-        -> setPadding ( 40 )
-        -> setErrorCorrection ( 'HIGH' )
-        -> setForegroundColor ( array ( 'r' => 0 , 'g' => 0 , 'b' => 0 , 'a' => 0 ))
-        -> setBackgroundColor ( array ( 'r' => 255 , 'g' => 255 , 'b' => 255 , 'a' => 0 ))
-        -> setLabel ( 'Visit this website' )
-        -> setLabelFontSize ( 16 )
-        -> setImageType (QrCode::IMAGE_TYPE_PNG )
-        ;
-        $imgQrCode =  '<img src="data:' . $qrCode -> getContentType (). ';base64,' . $qrCode -> generate (). '" />' ;
-        $this->set(compact('imgQrCode'));
->>>>>>> master
     }
 }
