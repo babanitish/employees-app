@@ -20,6 +20,8 @@ class EmployeesController extends AppController
         // Configurez l'action de connexion pour ne pas exiger d'authentification,
         // évitant ainsi le problème de la boucle de redirection infinie
         $this->Authentication->addUnauthenticatedActions(['login']);
+        
+        
     }
 
     public function home(){
@@ -32,6 +34,7 @@ class EmployeesController extends AppController
      */
     public function index()
     {
+        $this->Authorization->skipAuthorization();
         //ajout de commentaire
         $employees = $this->paginate($this->Employees);
         $total = $this->Employees->find()->count();
@@ -48,6 +51,7 @@ class EmployeesController extends AppController
      */
     public function view($id = null)
     {
+        $this->Authorization->skipAuthorization();
         $employee = $this->Employees->get($id, [
             'contain' => ['Salaries'],
         ]);
@@ -85,8 +89,14 @@ class EmployeesController extends AppController
     public function edit($id = null)
     {
         $employee = $this->Employees->get($id, [
-            'contain' => [],
+            'contain' => ['Departments'],
         ]);
+        
+        
+        
+        $this->Authorization->authorize($employee, 'edit');
+        
+        
         if ($this->request->is(['patch', 'post', 'put'])) {
             $employee = $this->Employees->patchEntity($employee, $this->request->getData());
             if ($this->Employees->save($employee)) {
@@ -120,33 +130,33 @@ class EmployeesController extends AppController
     }
 
   public function login(){
-
+      $this->Authorization->skipAuthorization();
         
-        $this->request->allowMethod(['get', 'post']);
-    $result = $this->Authentication->getResult();
-    // indépendamment de POST ou GET, rediriger si l'utilisateur est connecté
-    if ($result->isValid()) {
-        // rediriger vers /articles après la connexion réussie
-        $redirect = $this->request->getQuery('redirect', [
-            'controller' => 'page',
-            'action' => 'home',
-        ]);
-
-        return $this->redirect($redirect);
-    }
-    // afficher une erreur si l'utilisateur a soumis un formulaire
-    // et que l'authentification a échoué
-    if ($this->request->is('post') && !$result->isValid()) {
-        $this->Flash->error(__('Votre identifiant ou votre mot de passe est incorrect.'));
-    }
-    }
-    public function logout()
-{
-    $result = $this->Authentication->getResult();
-    // regardless of POST or GET, redirect if user is logged in
-    if ($result->isValid()) {
-        $this->Authentication->logout();
-        return $this->redirect(['controller' => 'Employees', 'action' => 'login']);
-    }
+      $this->request->allowMethod(['get', 'post']);
+      $result = $this->Authentication->getResult();
+      // indépendamment de POST ou GET, rediriger si l'utilisateur est connecté
+      if ($result->isValid()) {
+            // rediriger vers /articles après la connexion réussie
+            $redirect = $this->request->getQuery('redirect', [
+                'controller' => 'pages',
+                'action' => 'home',
+            ]);
+    
+            return $this->redirect($redirect);
+      }
+      // afficher une erreur si l'utilisateur a soumis un formulaire
+      // et que l'authentification a échoué
+      if ($this->request->is('post') && !$result->isValid()) {
+          $this->Flash->error(__('Votre identifiant ou votre mot de passe est incorrect.'));
+      }
 }
+    public function logout(){
+        $this->Authorization->skipAuthorization();
+        $result = $this->Authentication->getResult();
+        // regardless of POST or GET, redirect if user is logged in
+        if ($result->isValid()) {
+            $this->Authentication->logout();
+            return $this->redirect(['controller' => 'Employees', 'action' => 'login']);
+        }
+    }
 }

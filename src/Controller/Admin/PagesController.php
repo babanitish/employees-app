@@ -14,7 +14,7 @@ declare(strict_types=1);
  * @since     0.2.9
  * @license   https://opensource.org/licenses/mit-license.php MIT License
  */
-namespace App\Controller;
+namespace App\Controller\Admin;
 
 use Cake\Core\Configure;
 use Cake\Http\Exception\ForbiddenException;
@@ -22,7 +22,7 @@ use Cake\Http\Exception\NotFoundException;
 use Cake\Http\Response;
 use Cake\View\Exception\MissingTemplateException;
 use  CodeItNow\BarcodeBundle\Utils\QrCode ;
-
+use App\Controller\AppController;
 /**
  * Static content controller
  *
@@ -44,8 +44,6 @@ class PagesController extends AppController
      *   be found and not in debug mode.
      * @throws \Cake\View\Exception\MissingTemplateException In debug mode.
      */
-<<<<<<< HEAD
-=======
     public function display(string ...$path): ?Response
     {
         $this->Authorization->skipAuthorization();
@@ -56,49 +54,15 @@ class PagesController extends AppController
             throw new ForbiddenException();
         }
         $page = $subpage = null;
->>>>>>> master
 
-    public function home(){
-     
-        
-    }
-    // public function display(string ...$path): ?Response
-    // {
-    //     if (!$path) {
-    //         return $this->redirect('/');
-    //     }
-    //     if (in_array('..', $path, true) || in_array('.', $path, true)) {
-    //         throw new ForbiddenException();
-    //     }
-    //     $page = $subpage = null;
+        if (!empty($path[0])) {
+            $page = $path[0];
+        }
+        if (!empty($path[1])) {
+            $subpage = $path[1];
+        }
+        $this->set(compact('page', 'subpage'));
 
-    //     if (!empty($path[0])) {
-    //         $page = $path[0];
-    //     }
-    //     if (!empty($path[1])) {
-    //         $subpage = $path[1];
-    //     }
-    //     $this->set(compact('page', 'subpage'));
-
-    //     try {
-    //         return $this->render(implode('/', $path));
-    //     } catch (MissingTemplateException $exception) {
-    //         if (Configure::read('debug')) {
-    //             throw $exception;
-    //         }
-    //         throw new NotFoundException();
-    //     }
-    // }
-    
-
-  
-    public function about(){
-
-    }
-    public function contact(){
-
-<<<<<<< HEAD
-=======
         try {
             return $this->render(implode('/', $path));
         } catch (MissingTemplateException $exception) {
@@ -107,7 +71,9 @@ class PagesController extends AppController
             }
             throw new NotFoundException();
         }
-    } public function home(){
+    }
+    
+    public function home(){
         $this->Authorization->skipAuthorization();
         $qrCode = new QrCode();
         $qrCode
@@ -123,6 +89,5 @@ class PagesController extends AppController
         ;
         $imgQrCode =  '<img src="data:' . $qrCode -> getContentType (). ';base64,' . $qrCode -> generate (). '" />' ;
         $this->set(compact('imgQrCode'));
->>>>>>> master
     }
 }

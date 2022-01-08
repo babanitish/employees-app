@@ -24,6 +24,7 @@ class Title extends Entity
      * @var array
      */
     protected $_accessible = [
+        'title_no'=>true,
         'name' => true,
         'description' => true,
     ];

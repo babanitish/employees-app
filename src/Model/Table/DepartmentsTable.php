@@ -44,9 +44,10 @@ class DepartmentsTable extends Table
         $this->setDisplayField('dept_no');
         $this->setPrimaryKey('dept_no');
         $this->belongsToMany('Employees', [
-            'through'=>'dept_emp',
+            'through'=>'DeptEmp',
             'foreignKey'=>'dept_no',
         ]);
+        
         
         $this->belongsToMany('Managers', [
             'className' => 'Employees',
@@ -54,6 +55,10 @@ class DepartmentsTable extends Table
             'foreignKey'=>'dept_no',
             'targetForeignKey'=>'emp_no'
         ]);
+        
+        $this->hasMany('Offers')
+            ->setForeignKey('dept_no');
+
 
         
     }
