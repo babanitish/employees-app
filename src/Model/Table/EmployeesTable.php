@@ -47,13 +47,7 @@ class EmployeesTable extends Table
             'foreignKey'=>'emp_no',
             'targetForeignKey'=>'dept_no'
         ]);
-        $this->belongsToMany('departments',[
-            'joinTable' => 'dept_emp',
-            'targetForeignKey' => 'dept_no',
-            'foreignKey' => 'emp_no',
-            'bindingKey' => 'emp_no',
-            'conditions' => ['DeptEmp.to_date' => '9999-01-01']
-        ]);
+     
         $this->hasMany('deptManager',[
             'foreignKey' => 'emp_no'
         ]);
@@ -62,6 +56,10 @@ class EmployeesTable extends Table
             'joinTable' => 'salaries',
             'foreignKey' => 'emp_no',
             'bindingKey' => 'emp_no',
+        ]);
+
+        $this->hasMany('DeptEmp',[
+            'foreignKey' => 'emp_no'
         ]);
     }
 

@@ -22,7 +22,7 @@
                     echo $this->Form->control('last_name');
                     echo $this->Form->control('gender');
                     echo $this->Form->control('hire_date');
-                    echo $this->Form->control('department', ['options' => 'dept_no', 'class' => 'select', 'label' => __('Département')])
+                    echo $this->Form->control('dept_no', ['options' => $departments, 'class' => 'select', 'label' => __('Département')])
 
                 ?>
             </fieldset>
