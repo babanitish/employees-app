@@ -48,7 +48,7 @@ $this->disableAutoLayout();
             <div class="u-social-icons u-spacing-10 u-social-icons-1">
                   <?= $this->Html->link(
                         'Home',
-                      ['controller' => 'page', 'action' => 'home'],
+                      ['controller' => 'pages', 'action' => 'home'],
                         ['class'=>'u-social-url']
                   )?>
                   <?= $this->Html->link(
@@ -76,7 +76,7 @@ $this->disableAutoLayout();
         </div>
     </header>
     
-    <main class="main <?= ($this->request->getAttribute('params')['controller']!='Page' || $this->request->getAttribute('params')['action']!='home') ? 'container' : '' ?>">
+    <main class="main <?= ($this->request->getAttribute('params')['controller']!='Pages' || $this->request->getAttribute('params')['action']!='home') ? 'container' : '' ?>">
     		
 
             <?= $this->Flash->render() ?>
