@@ -39,7 +39,10 @@ class TitlesTable extends Table
 
         $this->setTable('titles');
         $this->setDisplayField('name');
-        $this->setPrimaryKey('title_no');
+        $this->setPrimaryKey('title_no');   
+        $this->hasMany('Offers')
+        ->setForeignKey('title_no');
+
     }
 
     /**

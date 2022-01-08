@@ -73,3 +73,26 @@ hr {
 #url-rewriting-warning {
     display: none;
 }
+
+div.options{
+	text-align:center;
+}
+
+div.options i{
+	margin: 0 5px;
+	}
+	
+.card{
+	min-width:200px;
+	margin-bottom:10px!important;
+}
+
+.important{
+	font-weight:bold;
+	color:#d33c43;
+}
+
+.card-deck{
+	margin-right:0;
+	margin-left:0;
+}

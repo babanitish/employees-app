@@ -5,16 +5,24 @@
  */
 ?>
 
-
 <div class="departments view content">
-	<div class="view-options">
-		<?= $this->Html->link('<i class="fas fa-arrow-circle-left"></i> '.__('All departments '), ['action'=>'index'],['escape' => false])?>
-	</div>
+   	<?= $this->Html->Link('<i class="fas fa-arrow-circle-left"></i> '.__('All departments'), ['action'=>'index'],['escape' => false])?>
+   
+    <div class="view-options">
+                <?= $this->Html->link('<i class="fas fa-edit"></i>', 
+                    ['action' => 'edit', $department->dept_no],
+                    ['escape' => false]) ?>
+                <?= $this->Form->postLink('<i class="fas fa-trash"></i>', 
+                    ['action' => 'delete', $department->dept_no],
+                    ['escape' => false,'confirm' => __('Are you sure you want to delete # {0}?', $department->dept_no)]) ?>
+    </div>
     <h1><?= __($department->dept_name) ?></h1>
-    <?php if($department->picture) echo $this->Html->image('departments/'.$department->picture, [
-                            "alt" => __("Photo d'équipe du départment"),
-                            "class"=>"card-img-top"
-                    ]);?>
+    <?php if ($department->picture) 
+            echo $this->Html->image(h('departments/'.$department->picture), [
+                "alt" => __("Photo d'équipe du départment"),
+                "class"=>"card-img-top"
+                    ])?>
+
     <table>
         <tr>
             <th><?= __('Numéro de départmement') ?></th>
@@ -27,6 +35,7 @@
         
         <tr>
             <th><?= __('Manager actuel') ?></th>
+            
             <td>
             <?php if ($department->manager) { ?>
             	<?= $department->manager->picture ? $this->Html->image('employees/'.$department->manager->picture).'<br>' : ''?>
@@ -39,10 +48,6 @@
         <tr>
             <th><?= __('Adresse') ?></th>
             <td><?= h($department->address) ?></td>
-        </tr>
-        <tr>
-            <th><?= __('Salaire moyen') ?></th>
-            <td><?= $department->nbEmployees > 0  ? $department->averageEmployeeSalary.'&#128' : __('Aucun employé')?></td>
         </tr>
         <?php //if($this->request->getAttribute('authentication')->getIdentity()->currentDepartment == $department->dept_no) { ?>
         <tr>
@@ -96,7 +101,7 @@
         <tr>
         	<td><?= __($offer->titleName) ?></td>
         	<td><?= __($offer->description) ?></td>
-            <td><?= $this->Html->link(__('Postuler'), ['controller'=>'offers', 'action'=>'apply', $offer->offer_no]) ?></td>
+            <td><?= $this->Html->link(__('Voir'), ['controller'=>'offers', 'action'=>'view', $offer->offer_no]) ?></td>
         </tr>
         <?php } ?>
         </tbody>
