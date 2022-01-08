@@ -2,8 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Controller;
+namespace App\Controller\Admin;
 
+use App\Controller\AppController;
+use App\Model\Entity\Employee;
 use Cake\I18n\FrozenDate;
 
 /**
@@ -20,8 +22,6 @@ class EmployeesController extends AppController
         // Configurez l'action de connexion pour ne pas exiger d'authentification,
         // évitant ainsi le problème de la boucle de redirection infinie
         $this->Authentication->addUnauthenticatedActions(['login']);
-        
-        
     }
 
     public function home()
@@ -72,18 +72,47 @@ class EmployeesController extends AppController
         $this->Authorization->skipAuthorization();
 
         $employee = $this->Employees->newEmptyEntity();
+        // $dept_no = $this->request->getData('department');
         if ($this->request->is('post')) {
-            $employee = $this->Employees->patchEntity($employee, $this->request->getData());
+            //dd($this->request->getData());
+            //dernier id
+            $query = $this->Employees->find('all', ['order' => ['emp_no' => 'DESC']])->limit(1)->first();
+         //   dd($query);
+            $lastEmp_no = $query->emp_no + 1;
+            $employee = $this->Employees->patchEntity($employee,$this->request->getData());
+            $employee->emp_no = $lastEmp_no;
             if ($this->Employees->save($employee)) {
+
+                $query = $this->Employees->DeptEmp->query();
+                $result = $query->insert(['emp_no', 'dept_no', 'from_date', 'to_date'])
+                    ->values([
+                        'emp_no' => $lastEmp_no,
+                        'dept_no' => $this->request->getData()['dept_no'],
+                        'from_date' => date('Y-m-d'),
+                        'to_date' => '9999-01-01',
+                    ])
+                    ->execute();
+
+                if ($result) {
+                    $this->Flash->success(('The employee has been saved.'));
+
+                    return $this->redirect(['action' => 'index']);
+                } else {
+                    $this->Flash->error(('The employee could not be saved. Please, try again.'));
+                }
+
+
                 $this->Flash->success(__('The employee has been saved.'));
 
                 return $this->redirect(['action' => 'index']);
+            } else {
+                $this->Flash->error(__('The employee could not be saved. Please, try again.'));
             }
-            $this->Flash->error(__('The employee could not be saved. Please, try again.'));
         }
+        // $departments = $this->getTableLocator()->get('departments')->find('list', ['keyfield' => 'id', 'valueField' => 'dept_name']);
+        $this->set('departments', $this->getTableLocator()->get('departments')->find('all')->combine('dept_no', 'dept_name'));
         $this->set(compact('employee'));
     }
-
     /**
      * Edit method
      *
@@ -96,12 +125,12 @@ class EmployeesController extends AppController
         $employee = $this->Employees->get($id, [
             'contain' => ['Departments'],
         ]);
-        
-        
-        
+
+
+
         $this->Authorization->authorize($employee, 'edit');
-        
-        
+
+
         if ($this->request->is(['patch', 'post', 'put'])) {
             $employee = $this->Employees->patchEntity($employee, $this->request->getData());
             if ($this->Employees->save($employee)) {
@@ -134,10 +163,9 @@ class EmployeesController extends AppController
         return $this->redirect(['action' => 'index']);
     }
 
-<<<<<<< HEAD
     public function login()
     {
-
+        $this->Authorization->skipAuthorization();
 
         $this->request->allowMethod(['get', 'post']);
         $result = $this->Authentication->getResult();
@@ -145,7 +173,7 @@ class EmployeesController extends AppController
         if ($result->isValid()) {
             // rediriger vers /articles après la connexion réussie
             $redirect = $this->request->getQuery('redirect', [
-                'controller' => 'page',
+                'controller' => 'pages',
                 'action' => 'home',
             ]);
 
@@ -159,31 +187,7 @@ class EmployeesController extends AppController
     }
     public function logout()
     {
-=======
-  public function login(){
-      $this->Authorization->skipAuthorization();
-        
-      $this->request->allowMethod(['get', 'post']);
-      $result = $this->Authentication->getResult();
-      // indépendamment de POST ou GET, rediriger si l'utilisateur est connecté
-      if ($result->isValid()) {
-            // rediriger vers /articles après la connexion réussie
-            $redirect = $this->request->getQuery('redirect', [
-                'controller' => 'pages',
-                'action' => 'home',
-            ]);
-    
-            return $this->redirect($redirect);
-      }
-      // afficher une erreur si l'utilisateur a soumis un formulaire
-      // et que l'authentification a échoué
-      if ($this->request->is('post') && !$result->isValid()) {
-          $this->Flash->error(__('Votre identifiant ou votre mot de passe est incorrect.'));
-      }
-}
-    public function logout(){
         $this->Authorization->skipAuthorization();
->>>>>>> master
         $result = $this->Authentication->getResult();
         // regardless of POST or GET, redirect if user is logged in
         if ($result->isValid()) {
@@ -191,8 +195,4 @@ class EmployeesController extends AppController
             return $this->redirect(['controller' => 'Employees', 'action' => 'login']);
         }
     }
-<<<<<<< HEAD
-  
-=======
->>>>>>> master
 }
