@@ -46,7 +46,7 @@ class PagesController extends AppController
      */
 
     public function home(){
-     
+        $this->Authorization->skipAuthorization();
         
     }
     // public function display(string ...$path): ?Response
