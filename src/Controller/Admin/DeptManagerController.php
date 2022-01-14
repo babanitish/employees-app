@@ -16,36 +16,10 @@ use function PHPUnit\Framework\isNan;
  */
 class DeptManagerController extends AppController
 {
-    /**
-     * Index method
-     *
-     * @return \Cake\Http\Response|null|void Renders view
-     */
-    public function index()
-    {
-        $deptManager = $this->paginate($this->DeptManager);
 
-        $this->set(compact('deptManager'));
-    }
-
-    /**
-     * View method
-     *
-     * @param string|null $id Dept Manager id.
-     * @return \Cake\Http\Response|null|void Renders view
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    public function view($id = null)
-    {
-        $deptManager = $this->DeptManager->get($id, [
-            'contain' => [],
-        ]);
-
-        $this->set(compact('deptManager'));
-    }
     
     /**
-     * View method
+     * View managers of a department
      *
      * @param string|null $id Department id.
      * @return \Cake\Http\Response|null|void Renders view
@@ -60,7 +34,8 @@ class DeptManagerController extends AppController
         $deptManagers = $this->DeptManager->find('all',[
             'contain' => ['Employees', 'Departments']
         ]);
-        $deptManagers =  $deptManagers->where( ['deptManager.dept_no'=>$dept_no])->all();
+        $deptManagers =  $deptManagers->where( ['deptManager.dept_no'=>$dept_no])
+                ->order(['from_date' => 'ASC'])->all();
         $this->set(compact('deptManagers'));
         $this->set(compact('dept_no'));
     }
@@ -79,6 +54,7 @@ class DeptManagerController extends AppController
         
         //redirigier si aucun département id
         if(empty($dept_no)) return $this->redirect(['controller'=>'departments','action' => 'index']);
+        
         $this->set(compact('dept_no'));
         
         //vérfier s'il n'y a pas dejà un manager
@@ -88,7 +64,7 @@ class DeptManagerController extends AppController
         }
         
         
-        
+        //traiter le formulaire d'ajout
         if ($this->request->is('post')) {
             //valeurs par défaut
             $deptManager->from_date = new FrozenDate();
@@ -96,6 +72,7 @@ class DeptManagerController extends AppController
             //dd($this->request->getData());
             $emp_no = $this->request->getData()['emp_no'] ?? null;
             
+            //vérifier qu'on a bien reçu un employee id et que c'est un nombre
             if(empty($emp_no) || !intval($emp_no)) {
                 $this->Flash->error(__('Incorrect employee number'));
                 $this->set(compact('deptManager'));
@@ -103,7 +80,6 @@ class DeptManagerController extends AppController
             }
             //transofmer en entier
             $emp_no = intval($emp_no);
-            
             
             //récupérer les valeurs du formulaire
             $deptManager->emp_no = $emp_no;
@@ -124,67 +100,21 @@ class DeptManagerController extends AppController
             } else {
                 $this->Flash->error(__('The dept manager could not be saved. Please, try again.'));
             }
-            
-        }
-        $this->set(compact('deptManager'));
-        
-    }
-
-    /**
-     * Edit method
-     *
-     * @param string|null $id Dept Manager id.
-     * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    public function edit($id = null)
-    {
-        $deptManager = $this->DeptManager->get($id, [
-            'contain' => [],
-        ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $deptManager = $this->DeptManager->patchEntity($deptManager, $this->request->getData());
-            if ($this->DeptManager->save($deptManager)) {
-                $this->Flash->success(__('The dept manager has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
-            }
-            $this->Flash->error(__('The dept manager could not be saved. Please, try again.'));
         }
         $this->set(compact('deptManager'));
     }
 
-    /**
-     * Delete method
-     *
-     * @param string|null $id Dept Manager id.
-     * @return \Cake\Http\Response|null|void Redirects to index.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    public function delete($id = null)
-    {
-        $this->request->allowMethod(['post', 'delete']);
-        $deptManager = $this->DeptManager->get($id);
-        if ($this->DeptManager->delete($deptManager)) {
-            $this->Flash->success(__('The dept manager has been deleted.'));
-        } else {
-            $this->Flash->error(__('The dept manager could not be deleted. Please, try again.'));
-        }
-
-        return $this->redirect(['action' => 'index']);
-    }
-    
     
     /**
      * Edit method
      *
-     * @param string|null $id Dept Manager id.
+     * @param string|null $id Employee id.
      * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function revoke($id = null)
     {
-        $this->Authorization->skipAuthorization();
+        
         
         //verifier si on a cet employé comme manager actuel
         $deptManager = $this->DeptManager->find()
@@ -195,7 +125,12 @@ class DeptManagerController extends AppController
             $this->Flash->error(__('The manager could not be revoked. Please, try again.'));
             return $this->redirect(['action' => 'department', $deptManager->dept_no]);
         }
+        
+        $this->Authorization->authorize($deptManager, 'revoke');
+        
+        
         if ($this->request->is(['patch', 'post', 'put'])) {
+            //mettre la date de fin du manager  à aujourdhui
             $deptManager->to_date = new FrozenDate();
             if ($this->DeptManager->save($deptManager)) {
                 $this->Flash->success(__('The manager has been revoked.'));

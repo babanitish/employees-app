@@ -20,41 +20,10 @@ class DeptManagerPolicy
      */
     public function canAdd(IdentityInterface $user, DeptManager $deptManager)
     {
-        return true;
+        return $user->isAdmin;
     }
 
-    /**
-     * Check if $user can edit DeptManager
-     *
-     * @param \Authorization\IdentityInterface $user The user.
-     * @param \App\Model\Entity\DeptManager $deptManager
-     * @return bool
-     */
-    public function canEdit(IdentityInterface $user, DeptManager $deptManager)
-    {
-    }
 
-    /**
-     * Check if $user can delete DeptManager
-     *
-     * @param \Authorization\IdentityInterface $user The user.
-     * @param \App\Model\Entity\DeptManager $deptManager
-     * @return bool
-     */
-    public function canDelete(IdentityInterface $user, DeptManager $deptManager)
-    {
-    }
-
-    /**
-     * Check if $user can view DeptManager
-     *
-     * @param \Authorization\IdentityInterface $user The user.
-     * @param \App\Model\Entity\DeptManager $deptManager
-     * @return bool
-     */
-    public function canView(IdentityInterface $user, DeptManager $deptManager)
-    {
-    }
     
     /**
      * Check if $user can manage Managers of a department
@@ -77,7 +46,7 @@ class DeptManagerPolicy
      */
     public function canRevoke(IdentityInterface $user,  DeptManager $deptManager)
     {
-        return true;
+        return $user->isAdmin;
     }
     
 }

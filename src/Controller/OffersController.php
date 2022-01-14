@@ -39,7 +39,7 @@ class OffersController extends AppController
     {
         $this->Authorization->skipAuthorization();
         $offer = $this->Offers->get($id, [
-            'contain' => [],
+            'contain' => ['titles', 'departments'],
         ]);
 
         $this->set(compact('offer'));
@@ -70,14 +70,24 @@ class OffersController extends AppController
             
             
             $managerEmail = 'lauren.swart@gmail.com';
-            
-            $fileobject = $this->request->getData('uploadedCV');
-            $destination = 'docs/applications/'.$offer->offer_no.'-'.$user->emp_no.'.pdf';
-            
-            // Existing files with the same name will be replaced.
-            $fileobject->moveTo($destination);
 
-            
+            //get uploaded cv
+            if (!empty($this->request->getData('uploadedCV'))){
+                $fileObject = $this->request->getData('uploadedCV');
+                $fileName = $fileObject->getClientFilename();
+                if (!empty($fileName)){
+                    if ($fileObject->getClientMediaType()=="application/pdf" && $fileObject->getSize()<500000){
+                        //save document
+                        $destination = 'docs/applications/offer'.$offer->offer_no.'-'.$user->emp_no.'.pdf';
+                        $fileObject->moveTo($destination);
+                    } else {
+                        $this->Flash->error(__('Your application could not be saved. Please upload a pdf version.'));
+                        $this->set(compact('offer'));
+                        return;
+                    }
+                }
+            }
+            //send email
             try {
                 //create email
                 $mailer = new Mailer('default');

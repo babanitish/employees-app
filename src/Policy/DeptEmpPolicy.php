@@ -31,7 +31,7 @@ class DeptEmpPolicy
      */
     public function canEdit(IdentityInterface $user, DeptEmp $deptEmp)
     {
-        return ( $user->email == 'lauren.swart@gmail.com');
+        return $user->isAdmin;
     }
 
     /**

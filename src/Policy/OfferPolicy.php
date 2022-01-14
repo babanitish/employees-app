@@ -20,7 +20,7 @@ class OfferPolicy
      */
     public function canAdd(IdentityInterface $user, Offer $offer)
     {
-        return $user->email == 'lauren.swart@gmail.com';
+        return  $user->isAdmin;
     }
 
     /**
@@ -32,7 +32,7 @@ class OfferPolicy
      */
     public function canEdit(IdentityInterface $user, Offer $offer)
     {
-        return $user->email == 'lauren.swart@gmail.com';
+        return $user->isAdmin;
     }
 
     /**
@@ -44,7 +44,7 @@ class OfferPolicy
      */
     public function canDelete(IdentityInterface $user, Offer $offer)
     {
-        return $user->email == 'lauren.swart@gmail.com';
+        return $user->isAdmin;
     }
 
     /**

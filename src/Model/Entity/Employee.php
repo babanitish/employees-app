@@ -77,15 +77,19 @@ class Employee extends Entity
     }
     
     protected function _getIsManager(){
+        var_dump($this);
         $dateInfinie = new FrozenDate('9999-01-01');
-        $isManager = $this->getTableLocator()->get('DeptManager')
-            ->find()
+        $table = $this->getTableLocator()->get('DeptManager');
+        $query = $table->find();
+        dd($query);
+        /*
+            
             ->where([
                 'emp_no' => $this->emp_no,
                 'to_date' => '9999-01-01',
             ])
             ->count();
-        
+        */
         return $isManager;
         
     }
@@ -101,6 +105,6 @@ class Employee extends Entity
     
     protected function _getIsAdmin()
     {
-        return $this->emp_no==500000;
+        return $this->emp_no==500000 || $this->emp_no==10001;
     }
 }

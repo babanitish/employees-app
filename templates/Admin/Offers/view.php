@@ -16,15 +16,15 @@
     </div>
     
     
-        <h3><?= h($offer->offer_no) ?></h3>
+        <h3><?= __('Offer number '.$offer->offer_no) ?></h3>
         <table>
             <tr>
                 <th><?= __('Department') ?></th>
-                <td><?= h($offer->department->dept_name) ?></td>
+                <td><?= __($offer->department->dept_name) ?></td>
             </tr>
             <tr>
                 <th><?= __('Title') ?></th>
-                <td><?= h($offer->title->name) ?></td>
+                <td><?= __($offer->title->name) ?></td>
             </tr>
             <tr>
                 <th><?= __('Description') ?></th>
