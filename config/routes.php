@@ -77,6 +77,7 @@ return static function (RouteBuilder $routes) {
     
     $routes->prefix('Admin', function (RouteBuilder $routes) {
         $routes->connect('/', ['controller' => 'Pages', 'action' => 'home']);
+        $routes->connect('/admin/employees/login', ['controller' => 'employees', 'action' => 'login']);
         $routes->fallbacks(DashedRoute::class);
     });
 

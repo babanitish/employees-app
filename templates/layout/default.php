@@ -72,6 +72,20 @@ $this->disableAutoLayout();
                       ['controller' => 'Offers', 'action' => 'index'],
                         ['class'=>'u-social-url']
                   )?>
+                  <?php if($user) { ?>
+                  	<?= $this->Html->link(
+                        'Logout',
+                      ['controller' => 'Employees', 'action' => 'logout'],
+                        ['class'=>'u-social-url']
+                    )?>
+                    <?php if ($user->getOriginalData()->isAdmin) { ?>
+                    	<?= $this->Html->link(
+                        'Admin',
+                        '/admin/',
+                        ['class'=>'u-social-url']
+                    )?>
+                    <?php } ?>
+                   <?php } ?>
             </div>
         </div>
     </header>

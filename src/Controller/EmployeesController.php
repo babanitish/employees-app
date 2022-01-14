@@ -161,7 +161,7 @@ class EmployeesController extends AppController
         // regardless of POST or GET, redirect if user is logged in
         if ($result->isValid()) {
             $this->Authentication->logout();
-            return $this->redirect(['controller' => 'Employees', 'action' => 'login']);
+            return $this->redirect(['prefix'=>null,'controller' => 'Pages', 'action' => 'home']);
         }
     }
 }

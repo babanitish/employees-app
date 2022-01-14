@@ -20,7 +20,7 @@ class DepartmentPolicy
      */
     public function canAdd(IdentityInterface $user, Department $department)
     {
-        return true;
+        return $user->isAdmin;
     }
 
     /**
@@ -34,7 +34,7 @@ class DepartmentPolicy
     {
         //d�terminer si user est manager de ce département
         //return $user->getOriginalData()->isManager && ($department->dept_no == $user->getOriginalData()->currentDepartment);
-        return true;
+        return $user->isAdmin;
     }
 
     /**
@@ -46,7 +46,7 @@ class DepartmentPolicy
      */
     public function canDelete(IdentityInterface $user, Department $department)
     {
-        return true;
+        return $user->isAdmin;
     }
 
     /**

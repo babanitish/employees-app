@@ -166,24 +166,14 @@ class EmployeesController extends AppController
     public function login()
     {
         $this->Authorization->skipAuthorization();
-
-        $this->request->allowMethod(['get', 'post']);
-        $result = $this->Authentication->getResult();
-        // indépendamment de POST ou GET, rediriger si l'utilisateur est connecté
-        if ($result->isValid()) {
-            // rediriger vers /articles après la connexion réussie
-            $redirect = $this->request->getQuery('redirect', [
-                'controller' => 'pages',
-                'action' => 'home',
-            ]);
-
-            return $this->redirect($redirect);
-        }
-        // afficher une erreur si l'utilisateur a soumis un formulaire
-        // et que l'authentification a échoué
-        if ($this->request->is('post') && !$result->isValid()) {
-            $this->Flash->error(__('Votre identifiant ou votre mot de passe est incorrect.'));
-        }
+        $redirect = $this->request->getQuery('redirect', [
+            'prefix'=>null,
+            'controller' => 'pages',
+            'action' => 'home',
+        ]);
+        
+        return $this->redirect($redirect);
+        
     }
     public function logout()
     {
